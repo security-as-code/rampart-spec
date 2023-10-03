@@ -8,7 +8,7 @@ The Rampart Security-as-Code Platform is comprised of two parts: a Domain-Specif
 
 | Term | Definition |
 | --- | --- |
-| Rampart | Autonomous Rule Management Runtime. |
+| Rampart | Security-as-Code Runtime. |
 | Rampart DSL/Language | The language used to script run-time security policies and enhancements. |
 | Rampart Rule | One of many run-time scripts that apply policies and enhancements for specific behaviors of the application (i.e. HTTP queries, SQL transactions, file-system operations, etc.) |
 | Rampart Mod | A self-sufficient Rampart program comprising one or more Rampart rules. An Rampart rule is always a member of one, and only one, Rampart Mod. |
