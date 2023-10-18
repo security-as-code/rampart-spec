@@ -130,7 +130,7 @@ requires(version: Rampart/2.7)
 
 Values can be any of these types,
 
-- **constant:** an unquoted string which is a member of a fixed enumeration of values, such as the ‘vendor’ values in the Rampart `sql()` rule, viz., `vendor(**oracle`)**
+- **constant:** an unquoted string which is a member of a fixed enumeration of values, such as the ‘vendor’ values in the Rampart `sql()` rule, viz., `vendor(oracle)`
 - **string**: any sequence of characters surrounded by double quotes. e.g. `"an example string"`.
 - **integer**: an unquoted whole number without decimal point.
 - **float**: an unquoted number with decimal point.
@@ -175,13 +175,13 @@ endapp
 
 ## Escape Character
 
-An Rampart string may contain any character. Double-quotes may be included in the body of a string if they are escaped with the back-slash character `\` , e.g. `\"` A backslash literal should also be escaped with a backslash to distinguish it from an escape character. Not escaping backslashes **\** or double quotes **"** could lead to unexpected behavior.
+An Rampart string may contain any character. Double-quotes may be included in the body of a string if they are escaped with the back-slash character `\` , e.g. `\"` A backslash literal should also be escaped with a backslash to distinguish it from an escape character. Not escaping backslashes \ or double quotes " could lead to unexpected behavior.
 
 | Valid | Invalid |
 | --- | --- |
-| "hello\\ world\"" | "hello world\" |
+| "hello\\ world\"" | "hello world\\" |
 |  | "hello w"rld" |
-|  | "hello w\\"orld" |
+|  | "hello w\\\\"orld" |
 
 The following Rampart Mod name is valid,
 
