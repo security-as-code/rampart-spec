@@ -4830,15 +4830,27 @@ The HTTP Verb Tampering security feature is enabled using the Rampart `http` rul
 
 To enable the HTTP Verb Tampering security feature using the Rampart `http` rule the user specifies the `request` declaration.
 
-| request | This determines the HTTP endpoints for which protection is enabled. An optional Key-Value pair can be supplied to this declaration where the key is paths and the value can be one of the following (indicating specifically targeted HTTP endpoints) :- • a quoted string • a list of one or more quoted-strings If no value is specified then protection is applied to all HTTP endpoints by default. If a string value is specified then it must: • not be empty • be a valid relative URI |
-| --- | --- |
+| request | This determines the HTTP endpoints for which protection is enabled. An optional Key-Value pair can be supplied to this declaration where the key is `paths` and the value can be one of the following: (indicating specifically targeted HTTP endpoints)
+• a quoted string
+• a list of one or more quoted-strings
+If no value is specified then protection is applied to all HTTP endpoints by default. If a string value is specified then it must:
+• not be empty
+• be a valid relative URI |
 
 ## When (Event)
 
-| validate | To enable HTTP verb tampering protection the user must provide the method parameter to this declaration. In addition, the key-value pair with key is must also be defined. |  |
-| --- | --- | --- |
-|  | method | The method key signifies that HTTP verb (method) tampering protection is in use |
-|  | is | The is key indicates the permitted values of HTTP verbs for a given request. Possible values for the is key are: • GET • POST • HEAD • PUT • DELETE • CONNECT • OPTIONS • TRACE • PATCH |
+| validate | To enable HTTP verb tampering protection the user must provide the`method` parameter to this declaration. In addition, the key-value pair with key `is` must also be defined. |
+| validate | method | The `method` key signifies that HTTP verb (method) tampering protection is in use |
+| validate | is | The `is` key indicates the permitted values of HTTP verbs for a given request. Possible values for the `is` key are:
+• GET
+• POST
+• HEAD
+• PUT
+• DELETE
+• CONNECT
+• OPTIONS
+• TRACE
+• PATCH |
 
 ## Then (Action)
 
