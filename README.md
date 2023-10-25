@@ -97,8 +97,6 @@ http("a Rampart HTTP Rule"):
 endhttp
 ```
 
----
-
 ## Statement
 
 Statements have the following syntax:
@@ -121,8 +119,6 @@ Statements have the following syntax:
 ```
 requires(version: Rampart/2.10)
 ```
-
----
 
 ## Types Of Values
 
@@ -169,8 +165,6 @@ app("Security Rules"):
 endapp
 ```
 
----
-
 ## Escape Character
 
 A Rampart string may contain any character. Double-quotes may be included in the body of a string if they are escaped with the back-slash character `\` , e.g. `\"` A backslash literal should also be escaped with a backslash to distinguish it from an escape character. Not escaping backslashes \ or double quotes " could lead to unexpected behavior.
@@ -189,16 +183,12 @@ app("App name with \\ and \""):
 endapp
 ```
 
----
-
 The following Rampart Mod name is invalid,
 
 ```
 app("App name ending slash\"):
 endapp
 ```
-
----
 
 ### Windows Paths
 
@@ -224,8 +214,6 @@ Rampart is a free-form language, meaning that the entire contents of a Rampart F
 app("Security Rules"):requires(version: Rampart/2.10)endapp
 ```
 
----
-
 Blocks, components and keywords must be declared in lowercase as the parser is case-sensitive. The following incorrect block does not load. Notice the malformed `ApP` and `EnDapp`.
 
 ```
@@ -234,8 +222,6 @@ requires (version: Rampart/2.10)
 
 EnDapp
 ```
-
----
 
 # **Rampart Mod**
 
@@ -459,8 +445,6 @@ app("Security Policy"):
 endapp
 ```
 
----
-
 In the example shown here, the `requires()` statement is missing.
 
 ```
@@ -469,15 +453,11 @@ app("Security Policy"):
 endapp
 ```
 
----
-
 The invalid Rampart Mod would generate an error message in the security log file.
 
 ```
 <unknown>: line 3: col 0: Invalid input: 'endapp' expecting: 'requires'
 ```
-
----
 
 # **Rampart Rule**
 
@@ -938,8 +918,6 @@ java/util/Hashtable.<init>(I)V
 com/sun/crypto/provider/DESKey.getEncoded()[B
 ```
 
----
-
 ## Function
 
 The function is the main target of the **Given (Condition)** step. It identifies the exact method of the exact class that we would like to apply the patch to. As an example, if we wanted our Rampart Patch rule to target the constructor for `java.net.URI(String str)` the `function` would be written as follows.
@@ -1092,8 +1070,6 @@ public class Utils {
 }
 ```
 
----
-
 The Java bytecode for the method `createByteArray()` can be seen here:
 
 ```
@@ -1151,8 +1127,6 @@ app("Security Policy"):
 
 endapp
 ```
-
----
 
 The above Rampart App declares a single Rampart Patch rule. The rule has the following statements.
 
@@ -1377,8 +1351,6 @@ Returns the `this` instance for non-static functions.
 Object loadThisVariable()
 ```
 
----
-
 ### Raising Exceptions
 
 When there is a deliberate intention to throw an Exception in the context of the running application, an Exception must be raised via the `raiseException()` function. If an uncaught Exception were thrown from the `patch(JavaFrame)` method of a Rampart Patch, the Rampart Engine would consider the Rampart Patch rule to be broken, and immediately unlink (uncompile) the offending Rampart Patch rule from the target function.
@@ -1386,8 +1358,6 @@ When there is a deliberate intention to throw an Exception in the context of the
 ```
 void raiseException(Throwable throwable)
 ```
-
----
 
 ### Returning Values
 
@@ -1407,8 +1377,6 @@ void returnString(String returnValue)
 void returnObject(Object returnValue)
 ```
 
----
-
 ### Load Variables
 
 The ***loadVariable*** methods are used to read values stored in a certain index in the local variable array. Please note that the long and double methods take up two index slots.
@@ -1425,8 +1393,6 @@ void loadCharVariable(int index);
 void loadStringVariable(int index);
 void loadObjectVariable(int index);
 ```
-
----
 
 ### Store Variables
 
@@ -1445,8 +1411,6 @@ void storeStringVariable(int index, String newValue);
 void storeObjectVariable(int index, Object newValue);
 ```
 
----
-
 ### Load Operand
 
 The ***loadOperand*** methods are used to read values stored in a certain index in the operand stack. Please note that the long and double methods take up two index slots.
@@ -1464,8 +1428,6 @@ String loadStringOperand(int index);
 Object loadObjectOperand(int index);
 ```
 
----
-
 ### Store Operand
 
 The ***storeOperand*** methods are used to write values to a certain index in the operand stack. Please note that the long and double methods take up two index slots.
@@ -1482,8 +1444,6 @@ void storeCharOperand(int index, char newValue);
 void storeStringOperand(int index, String newValue);
 void storeObjectOperand(int index, Object newValue);
 ```
-
----
 
 # **Rampart Marshal Rule**
 
