@@ -4599,164 +4599,162 @@ If no value is specified then custom headers are applied to all HTTP endpoints b
 The following examples show, for each of the headers listed in the introduction, how the Rampart `http` rule can be used to add these to the HTTP/HTTPS response.
 
 • The HTTP X-XSS-Protection response header is a feature of Internet Explorer, Chrome and Safari that stops pages from loading when they detect reflected cross-site scripting (XSS) attacks:
-    
+
     ```
     app("Header response addition mod"):
     requires(version: Rampart/2.10)
-    
+
     http("Add custom headers to HTTP/S response"):
     response()
     protect(http-response: {set-header: {X-XSS-Protection: 1}}, message: "Setting custom header.", severity: High)
     endhttp
-    
+
     endapp
     ```
-    
+
 A log entry similar to the following is generated when the above `http` rule successfully adds the specified header to an HTTP response:
-    
+
     ```
     <10>1 2022-01-31T13:09:59.497Z userX_system java 19285 - - CEF:0|Rampart:Rampart|Rampart|2.10|Add custom headers to HTTP/S response|Execute Rule|High|msg=Setting custom header. rt=Jan 31 2022 13:09:59.496 +0000 appVersion=1 act=protect httpHeaderName=X-XSS-Protection dvchost=userX_system ruleType=http procid=19285 httpRequestUri=/spiracle/ httpRequestMethod=GET securityFeature=http set header internalHttpRequestUri=/spiracle/
     ```
-    
+
 The XSS rule can be employed in addition to using the X-XSS-Protection response header for multi-layered security, however, these rules have no dependency on each other and work completely separately in the security they provide. Please check MDN Web Docs “X-XSS-Protection” for more information.
-    
+
 • The X-Content-Type-Options response HTTP header is a marker used by the server to indicate that the MIME types advertised in the `Content-Type` headers should not be changed and be followed. This allows to opt-out of MIME type sniffing.
-    
+
     ```
     app("Header response addition mod"):
     requires(version: Rampart/2.10)
-    
+
     http("Add custom headers to HTTP/S response"):
     response()
     protect(http-response: {set-header: {X-Content-Type-Options: "nosniff"}}, message: "Setting custom header.", severity: High)
     endhttp
-    
+
     endapp
     ```
-    
+
 Please check MDN Web Docs “X-Content-Type-Options“ for more information about the response header.
-    
+
 • The X-Frame-Options HTTP response header can be used to indicate whether a browser should be allowed to render a page in a `<frame>`, `<iframe>`, `<embed>` or `<object>`. Applications and sites can use this to avoid Clickjacking attacks by ensuring that their content is not embedded into other sites. Note that the HTTP Content-Security-Policy response header can also be used to protect against Clickjacking. If you add the response header X-Frame-Options=DENY, pages cannot be displayed in frames, regardless of the site attempting to do so. Framing is disabled even when loaded from the same site.
-    
+
     ```
     app("Header response addition mod"):
     requires(version: Rampart/2.10)
-    
+
     http("Add custom headers to HTTP/S response"):
     response()
     protect(http-response: {set-header: {X-Frame-Options: "DENY"}}, message: "Setting custom header.", severity: High)
     endhttp
-    
-    endap
+
+    endapp
     ```
-    
+
 If you add the response header X-Frame-Options=SAMEORIGIN, framed pages can be used as long as the site including it in a frame is the same as the one serving the page:
-    
+
     ```
     app("Header response addition mod"):
     requires(version: Rampart/2.10)
-    
+
     http("Add custom headers to HTTP/S response"):
     response()
     protect(http-response: {set-header: {X-Frame-Options: "SAMEORIGIN"}}, message: "Setting custom header.", severity: High)
     endhttp
-    
+
     endapp
     ```
-    
+
 Τhe response header X-Frame-Options=ALLOW-FROM URI, is an obsolete directive that no longer works in modern browsers, so it is not recommended to use it. In supporting legacy browsers, a page can only be displayed in a frame on the specified origin URI. Note that in the legacy Firefox implementation, this still suffered from the same problem as SAMEORIGIN did — it doesn't check the frame-ancestors to see if they are in the same origin. The Content-Security-Policy HTTP header has a `frame-ancestors` directive which you can use instead.
-    
+
     ```
     app("Header response addition mod"):
     requires(version: Rampart/2.10)
-    
+
     http("Add custom headers to HTTP/S response"):
     response()
     protect(http-response: {set-header: {X-Frame-Options: "ALLOW-FROM https://example.com/"}}, message: "Setting custom header.", severity: High)
     endhttp
-    
+
     endapp
     ```
-    
+
 Please check MDN Web Docs “X-Frame-Option“ for more information about the X-Frame-Options response header.
 Please check MDN Web Docs “Clickjacking Defense Cheat Sheet“ for more information on how to use HTTP response headers to protect against Clickjacking.
-    
+
 • The HTTP Content-Security-Policy response header allows users to control resources the browser is allowed to load for a given page. The `Content-Security-Policy` HTTP header is part of the HTML5 standard and provides a broader range of protection than the `X-Frame-Options` header. Users can whitelist individual domains from which resources can be loaded (such as scripts, stylesheets, and fonts), and also domains that are permitted to embed a page. The Content-Security-Policy response header and the frame-ancestors directive can also be used to control whether the site's content can be embedded or framed, effectively protecting against Clickjacking.
-    
+
 Using the response header `Content-Security-Policy=frame-ancestors 'none'` prevents any domain from framing the content. This setting is recommended unless a specific need has been identified for framing. Using `frame-ancestors 'none'` is similar to using `X-Frame-Options: deny`.
-    
+
     ```
     app("Header response addition mod"):
     requires(version: Rampart/2.10)
-    
+
     http("Add custom headers to HTTP/S response"):
     response()
     protect(http-response: {set-header: {Content-Security-Policy: "frame-ancestors 'none'"}}, message: "Setting custom header.", severity: High)
     endhttp
-    
+
     endapp
     ```
-    
+
 Using the response header `Content-Security-Policy=frame-ancestors 'self'` only allows the current site to frame the content. This setting is recommended if the application requires framing of its own pages. Using `frame-ancestors 'self'` is similar to using `X-Frame-Options: sameorigin.`
-    
+
     ```
     app("Header response addition mod"):
     requires(version: Rampart/2.10)
-    
+
     http("Add custom headers to HTTP/S response"):
     response()
     protect(http-response: {set-header: {Content-Security-Policy: "frame-ancestors 'self'"}}, message: "Setting custom header.", severity: High)
     endhttp
-    
+
     endapp
     ```
-    
+
 Using the response header `Content-Security-Policy=frame-ancestors 'self' URI1 URI2` allows the current site, as well as any page on the other trusted URIs to frame pages of this site. This setting is recommended if the application allows specific third-party applications or websites to frame its pages.
-    
+
     ```
     app("Header response addition mod"):
     requires(version: Rampart/2.10)
-    
+
     http("Add custom headers to HTTP/S response"):
     response()
     protect(http-response: {set-header: {Content-Security-Policy: "frame-ancestors 'self' *.somesite.com https://trusted.site.com"}}, message: "Setting custom header.", severity: High)
     endhttp
-    
     endapp
     ```
-    
+
 Please check MDN Web Docs “Contest Security Policy“ for more information about the Content-Security-Policy response header.
-    
+
 • The HTTP Strict-Transport-Security response header (often abbreviated as HSTS) lets a website tell browsers that it should only be accessed using HTTPS, instead of using HTTP:
-    
+
     ```
     app("Header response addition mod"):
     requires(version: Rampart/2.10)
-    
+
     http("Add custom headers to HTTP/S response"):
     response()
     protect(http-response: {set-header: {Strict-Transport-Security: "max-age=31536000"}}, message: "Setting custom header.", severity: High)
     endhttp
-    
+
     endapp
     ```
-    
+
 Please check MDN Web Docs “Strict Transport Security“ for more information about the Strict-Transport-Security response header.
-    
+
 • The Access-Control-Allow-Origin response header indicates whether the response can be shared with requesting code from the given origin.
-    
+
     ```
     app("Header response addition mod"):
     requires(version: Rampart/2.10)
-    
+
     http("Add custom headers to HTTP/S response"):
     response()
     protect(http-response: {set-header: {Access-Control-Allow-Origin: "*"}}, message: "Setting custom header.", severity: High)
     endhttp
-    
     endapp
     ```
-    
+
 Please check MDN Web Docs “Access Control Allow Origin“ for more information about the Access-Control-Allow-Origin response header.
 
 ## **Session Fixation Security Feature**
