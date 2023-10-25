@@ -5136,6 +5136,7 @@ In most cases, defining the following XSS rule would provide the required level 
 
 ```
 app("XSS"):
+  requires(version: Rampart/2.10)
   http("XSS Protection"):
     response()
     xss(html)
