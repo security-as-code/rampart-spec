@@ -4126,6 +4126,7 @@ endapp
 
 Cross-site Scripting (XSS) is one of the most dangerous and commonly found vulnerabilities in web applications. XSS attacks are a type of injection, in which malicious scripts are injected into otherwise benign and trusted websites.
 
+ ℹ️ Cross-site Scripting vulnerabilities are covered by CWE-79.
 
 The XSS security feature can be used to enable protection against XSS attacks.
 
