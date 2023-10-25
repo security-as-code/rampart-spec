@@ -2924,39 +2924,12 @@ The rule actively examines payloads coming from HTTP requests that use the `java
 
 **API**
 
----
-
-```
-javax.servlet.ServletRequest.getParameter(Ljava/lang/String;)Ljava/lang/String;
-```
-
----
-
-```
-javax.servlet.ServletRequest.getParameterMap()Ljava/util/Map;
-```
-
----
-
-```
-javax.servlet.ServletRequest.getParameterValues()[Ljava/lang/String;
-```
-
----
-
-```
-javax.servlet.ServletInputStream.readLine([BII)I
-```
-
----
-
-Spring Boot - JSON to Object Conversion
-
----
-
-Spring Boot - XML to Object Conversion
-
----
+- ‘javax.servlet.ServletRequest.getParameter(Ljava/lang/String;)Ljava/lang/String;’
+- ‘javax.servlet.ServletRequest.getParameterMap()Ljava/util/Map;’
+- ‘javax.servlet.ServletRequest.getParameterValues()[Ljava/lang/String;’
+- ‘javax.servlet.ServletInputStream.readLine([BII)I’
+- Spring Boot - JSON to Object Conversion
+- Spring Boot - XML to Object Conversion
 
 ## Then (Action)
 
