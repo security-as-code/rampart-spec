@@ -4924,7 +4924,6 @@ How the attack works can be summarized in the following steps:
 ### Recommended Security Controls
 
 According to the CERT​ and MITRE​ recommendations, to be protected against Deserialization attacks, applications must:
-
 - Minimize privileges before deserializing from a privileged context.
 - Not invoke potentially dangerous operations during deserialization.
 
@@ -5174,7 +5173,6 @@ When the Open Redirect rule is enabled in protect mode and an Open Redirect atta
 ### Rule Applicability
 
 The Open Redirect rule is applicable and can be safely enabled for web applications that:
-
 - Use the Servlet API to handle HTTP requests and responses.
 - Perform server-side HTTP redirects to URLs of the same domain or a subdomain of the application’s root domain.
 
@@ -5242,19 +5240,16 @@ It is recommended not to enable the Path Traversal rule in blocking mode if the 
 Cross-Site Scripting (XSS) (CWE-79) attacks are a type of injection, in which malicious scripts are injected into otherwise benign and trusted websites. XSS attacks occur when an attacker uses a web application to send malicious code, generally in the form of a browser side script, to a different end user.
 
 The XSS flaw occurs when:
-
 - Data enters a Web application through an untrusted source, most frequently a web request.
 - The data is included in dynamic content that is sent to a web user without being validated for malicious content.
 
 There are 2 main types of XSS vulnerabilities:
-
 1. Reflected XSS attacks: where the injected script is reflected off the web server, such as in an error message, search result, or any other response that includes some or all of the input sent to the server as part of the HTTP request.
 2. Stored XSS attacks: where the injected script is permanently stored on the target servers, such as in a database.
 
 ### Recommended Security Controls
 
 According to the OWASP​ and ​MITRE​ recommendations, to be protected against XSS applications must:
-
 1. Understand the context in which the untrusted data is used and the encoding that is expected.
 2. Use structured mechanisms that automatically enforce the separation between data and code. These mechanisms may be able to provide the relevant quoting, encoding, and validation automatically, instead of relying on the developer to provide this capability at every point where output is generated.
 
@@ -5263,7 +5258,6 @@ According to the OWASP​ and ​MITRE​ recommendations, to be protected again
 Rampart offers protection against XSS attacks via the `xss` feature in the Rampart HTTP rule. This rule uses the tainting engine to track all user input, hooks into the web application's Servlet API and monitors all the write operations to the HTTP response. When a servlet write operation occurs, the Rampart agent uses a streaming tainted HTML 5.0 lexer and checks if any sequence of user-controllable (tainted) characters mutate the HTML syntax.
 
 By default, the XSS rule:
-
 1. protects only against reflected XSS attacks (i.e. payloads coming from HTTP requests)
 2. protects the HTTP responses of all HTTP endpoints that produce HTML responses
 
@@ -5362,7 +5356,6 @@ The flaw occurs when the HTTP Session ID remains the same before and after a use
 ### Recommended Security Controls
 
 According to the OWASP​ and ​MITRE​ recommendations, to be protected against Session Fixation, applications must:
-
 1. Invalidate any existing session identifiers prior to authorizing a new user session
 2. Regenerate the session ID after any privilege level change within the associated user session
 
@@ -5399,13 +5392,11 @@ The Session Fixation rule is a proactive rule. It is triggered proactively befor
 ### Rule Applicability
 
 The Session Fixation rule is applicable and can be safely enabled in web applications:
-
 - That use the Servlet API to handle HTTP requests, responses and session management.
 - Whose authentication management system sets authentication and identity information on every HTTP request.
 - Whose authentication mechanism sets the HttpServletRequest user Principal after authentication.
 
 Users should not enable the Session Fixation rule in the following cases as it could either provide no protection or break the normal application functionality:
-
 - In the very rare case where the target web application depends on having the same HTTP Session ID before and after the user authentication.
 - If there is another security control in place that also regenerates the HTTP Session ID as it might cause conflicts.
 
