@@ -4560,12 +4560,12 @@ Some security vulnerabilities can be resolved when the HTTP/HTTPS response conta
 
 The following are examples of those headers:
 
-- **X-XSS-Protection**: enables the Cross-Site Scripting filter in your browser.
-- **X-Content-Type-Options**: allows to opt-out of MIME type sniffing.
-- **X-Frame-Options**: protects against Clickjacking attacks, also known as UI redressing.
-- **Strict-Transport-Security**: tells browsers to enforce HTTPS protocol over HTTP.
-- **Access-Control-Allow-Origin**: allows web servers to specify the domains that can benefit from Cross-Origin Resource Sharing (CORS) functionality.
-- **Content-Security-Policy**: enables another layer of security that helps to detect and mitigate certain types of attacks, including Clickjacking, Cross-Site Scripting (XSS) and data injection attacks.
+• X-XSS-Protection: enables the Cross-Site Scripting filter in your browser.
+• X-Content-Type-Options: allows to opt-out of MIME type sniffing.
+• X-Frame-Options: protects against Clickjacking attacks, also known as UI redressing.
+• Strict-Transport-Security: tells browsers to enforce HTTPS protocol over HTTP.
+• Access-Control-Allow-Origin: allows web servers to specify the domains that can benefit from Cross-Origin Resource Sharing (CORS) functionality.
+• Content-Security-Policy: enables another layer of security that helps to detect and mitigate certain types of attacks, including Clickjacking, Cross-Site Scripting (XSS) and data injection attacks.
 
 When using the Rampart `http` rule to set custom HTTP/HTTPS response headers the user is advised to check that the web browser supports the inserted HTTP/HTTPS response header. Providing this is satisfied, the user is free to add any HTTP/HTTPS response header name and value. The agent never attempts to override existing application headers.
 
