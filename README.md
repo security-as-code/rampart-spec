@@ -1701,6 +1701,7 @@ In order for an XXE attack to happen, the attacker needs to include a Document T
 
 **HTTP POST Request**
 
+```
 <?xml version="1.0" ?>
 
 <!DOCTYPE foo [
@@ -1712,6 +1713,7 @@ In order for an XXE attack to happen, the attacker needs to include a Document T
 ]>
 
 <foo>&xxe;</foo>
+```
 
 In this classic example, the attacker is using a general external ‘ENTITY’ declaration named ‘xxe’ to get access to a local file on the server using the ‘file://’ protocol via the inclusion of the ‘SYSTEM’ keyword. In this case, the file being accessed is ‘/etc/passwd’. Using the entity reference ‘&xxe;’ in the XML body, the reference is expanded with the contents of the file. Depending on the logic of the application, it is possible that the HTTP response is returned to the attacker with the contents of the file. As we can see, the file being accessed has nothing to do with an entity definition, or DTD in general, but the system tries to access this file as requested.
 
