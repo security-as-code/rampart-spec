@@ -7,7 +7,7 @@ This specification defines the Rampart Security-as-Code platform and core concep
 The Rampart Security-as-Code Platform is comprised of two parts: a Domain-Specific Language (DSL) for scripting run-time security policies and enhancements, and an implementation engine that interprets the Rampart DSL & APIs to apply the scripted security policies and enhancements. Here are some of the common Rampart terms used throughout this document:
 
 | Term | Definition |
-| --- | --- |
+| ---- | ---------- |
 | Rampart | Security-as-Code Runtime. |
 | Rampart DSL/Language | The language used to script run-time security policies and enhancements. |
 | Rampart Rule | One of many run-time scripts that apply policies and enhancements for specific behaviors of the application (i.e. HTTP queries, SQL transactions, file-system operations, etc.) |
@@ -318,15 +318,15 @@ It takes a comma-separated list of Key-Value pairs. Any of the Rampart primitive
 There is a list of metadata keys which have been standardized, and so, their values are validated when a Rampart mod is parsed. The following table lists these keys and the enforced structure of their corresponding values:
 
 | Key | Description | Enforced value structure | Rampart language example cases |
-| --- | --- | --- | --- |
-| cve | CVE ID of the vulnerability | Any non empty string literal or a list of non empty string literals | cve: "CVE-2020-4000" cve: ["CVE-2020-4000",                     "CVE-2020-4001"] |
-| cwe | CWE category of the vulnerability | Any non empty string literal or a list of non empty string literals | cwe: "CWE-89" cwe: ["CWE-89", "CWE-564"] |
-| cvss | CVSS score of the vulnerability | A list comprised of the following Key-Value pairs: • key score where its value must be a float • key version where its value must be a float • key vector where its value must be a string literal | cvss: {score: 10.0, version: 3.1, vector:                     "..."} |
-| description | Text describing what the vulnerability or the mod or rule | Single string literal | description: "The vulnerability allows a remote                     non-authenticated attacker to perform service                     disruption." |
-| affected-os | Operating systems affected by the vulnerability | Any non empty string literal or a list of non empty string literals | affected-os: "Windows" affected-os: ["Windows", "Linux"] |
+| --- | ----------- | ------------------------ | ------------------------------ |
+| cve | CVE ID of the vulnerability | Any non-empty string literal or a list of non-empty string literals | cve: "CVE-2020-4000" cve: ["CVE-2020-4000", "CVE-2020-4001"] |
+| cwe | CWE category of the vulnerability | Any non-empty string literal or a list of non-empty string literals | cwe: "CWE-89" cwe: ["CWE-89", "CWE-564"] |
+| cvss | CVSS score of the vulnerability | A list comprised of the following Key-Value pairs: • key score where its value must be a float • key version where its value must be a float • key vector where its value must be a string literal | cvss: {score: 10.0, version: 3.1, vector: "..."} |
+| description | Text describing the vulnerability or the mod or the rule | Single string literal | description: "The vulnerability allows a remote non-authenticated attacker to perform service disruption." |
+| affected-os | Operating systems affected by the vulnerability | Any non-empty string literal or a list of non-empty string literals | affected-os: "Windows" affected-os: ["Windows", "Linux"] |
 | affected-product-name | Name of the product affected by the vulnerability | Single string literal | affected-product-name: "Struts 2" |
-| affected-product-version | Version of the product affected by the vulnerability | Single string literal or a list of ranges. A range is comprised of a key range and a value comprised of 2 Key-Value pairs: from and to. Multiple ranges can be defined. If a single string is specified, a single range is interpreted internally with the same value for from and to Key-Value pairs. range: {from: "1.0.0", to:                     "1.0.0"} | affected-product-version: "2.10.27" affected-product-version: {range: {from:                     "2.10.20", to: "2.10.27"}} affected-product-version: { range: {from:                     "2.10.20", to: "2.10.27"}, range: {from:                     "2.10.0", to: "2.10.8"}} |
-| creation-time | Time when the mod or rule was created | Single string literal | creation-time: "Tue 02 Nov 2021 15:46:13                     GMT" |
+| affected-product-version | Version of the product affected by the vulnerability | Single string literal or a list of ranges. A range is comprised of a key range and a value comprised of 2 Key-Value pairs: from and to. Multiple ranges can be defined. If a single string is specified, a single range is interpreted internally with the same value for from and to Key-Value pairs. range: {from: "1.0.0", to:                     "1.0.0"} | affected-product-version: "2.5.27" affected-product-version: {range: {from: "2.5.20", to: "2.5.27"}} affected-product-version: {range: {from: "2.5.20", to: "2.5.27"}, range: {from: "2.6.0", to: "2.6.8"}} |
+| creation-time | Time when the mod or rule was created | Single string literal | creation-time: "Tue 02 Nov 2021 15:46:13 GMT" |
 | version | Development version of the rule | Integer | version: 2 |
 
 None of the metadata keys above is mandatory.
@@ -517,8 +517,9 @@ Rampart rules perform an action on the basis of an event being triggered. In su
 
 ℹ️ After event condition specificity, action priority then determines rule precedence. Action priority from highest to lowest is: allow (where supported), protect, detect.
 
+| Action | Description |
+| ------ | ----------- |
 | detect | Used for monitoring events that have been triggered. Since this action does not interfere with other actions, it always runs. A log entry is made in the CEF log file. |
-| --- | --- |
 | allow | Used for allowing specific events to happen, overriding the events that are otherwise protected. A log entry is made in the CEF log file. |
 | protect | Used for specifying events to protect. The type of protection is dependent on the Rampart rule type. A log entry is made in the CEF log file. |
 | code | A user-specified block of code that is run when the event has been triggered. No log entries are recorded on execution unless configured by the Rampart developer. In Rampart 2.0, code blocks are only supported in the Rampart Patch rule; in Rampart 3.0 and above, code blocks are supported in all rules. |
@@ -903,7 +904,7 @@ java/lang/String.valueOf(I)Ljava/lang/String;
 ```
 
 | Part Name | Part | Description |
-| --- | --- | --- |
+| --------- | ---- | ----------- |
 | Class | java/lang/String | The fully qualified name (FQN) of the class that contains the targeted method. |
 | Method | valueOf | The method name that needs to be targeted. Overloaded methods have different arguments. |
 | Arguments | (I) | It is important to target the specific method by specifying the correct arguments, in the order they are expected. |
@@ -913,7 +914,7 @@ java/lang/String.valueOf(I)Ljava/lang/String;
 ### Java Types
 
 | Type | Internal | Example | Default Value | Size | Frame Slot Allocation |
-| --- | --- | --- | --- | --- | --- |
+| ---- | -------- | ------- | ------------- | ---- | --------------------- |
 | object | L<type> | Ljava/lang/String; | null | 16 bytes minimum | 1 |
 | boolean | Z |  | false | 1 bit | 1 |
 | byte | B |  | 0 | 8 bit signed | 1 |
@@ -950,7 +951,7 @@ The function is the main target of the **Given (Condition)** step. It identifies
 The **location-specifier** provides the **When (Event)** step. Once we have defined the Class and method we would like to patch in the **function** statement, we can use one of the location-specifier statements to declare a specific instruction within the function where the patch should be applied. Here is a complete list of all available location-specifier statements.
 
 | entry() | instruction() | read() | write() | call() |
-| --- | --- | --- | --- | --- |
+| ------- | ------------- | ------ | ------- | ------ |
 | exit() | line() | readsite() | writesite() | callsite() |
 | error() |  | readreturn() | writereturn() | callreturn() |
 
@@ -959,7 +960,7 @@ Every Patch rule must specify a single location-specifier. Every location-specif
 ### ENTRY / EXIT / ERROR
 
 | Location | Example | Description |
-| --- | --- | --- |
+| -------- | ------- | ----------- |
 | entry() |  | Apply the patch at the start of the targeted function, before the first bytecode instruction is executed in the targeted function. |
 | exit() |  | Apply the patch at the return instruction from the targeted function. There may be more than one return instruction in a method, and the patch is applied at every return instruction. |
 | error() | error("java/io/IOException") | Apply the patch to every exception which propagates from the targeted function. |
@@ -967,14 +968,14 @@ Every Patch rule must specify a single location-specifier. Every location-specif
 ### INSTRUCTION / LINE
 
 | Location | Example | Description |
-| --- | --- | --- |
+| -------- | ------- | ----------- |
 | instruction() | instruction(391) | Apply the patch immediately before the bytecode instruction at the specified instruction offset of the target function instruction stream. |
 | line() | line(12) | Trigger the patch immediately before the instruction at the specified source code line number. |
 
 ### READ / READSITE / READRETURN
 
 | Location | Example | Description |
-| --- | --- | --- |
+| -------- | ------- | ----------- |
 | read() | read("java/io/File.path") | Apply the patch in place of the memory read instruction for the specified memory field. |
 | readsite() | readsite("java/io/File.path") | Apply the patch immediately before the memory read instruction for the specified memory field. |
 | readreturn() | readreturn("java/io/File.path") | Apply the patch immediately after the memory read instruction for the specified memory field. |
@@ -982,7 +983,7 @@ Every Patch rule must specify a single location-specifier. Every location-specif
 ### WRITE / WRITESITE / WRITERETURN
 
 | Location | Example | Description |
-| --- | --- | --- |
+| -------- | ------- | ----------- |
 | write() | write("java/io/File.path") | Apply the patch in place of the memory write instruction for the specified memory field. |
 | writesite() | writesite("java/io/File.path") | Apply the patch immediately before the memory write instruction for the specified memory field. |
 | writereturn() | writereturn("java/io/File.path") | Apply the patch immediately after the memory write instruction for the specified memory field. |
@@ -1025,7 +1026,7 @@ All text between the `code` block’s opening and closing declarations are inter
 A Rampart Patch rule makes certain methods available to the patch developer that are tied to the Rampart Rule life-cycle. These methods can be overridden to provide customized behavior at each lifecycle event.
 
 | Method | Required | Description |
-| --- | --- | --- |
+| ------ | -------- | ----------- |
 | public void load(); | optional | The load() method is invoked once the link life-cycle event is triggered. Since this is a once-off event, the load method is useful for the initialization of the state. |
 | public void patch(JavaFrame frame); | mandatory | The patch() method is invoked once the execute life-cycle event is triggered. This event can happen multiple times. Every patch must implement the patch() method. |
 | public void unload(); | optional | The unload() method is invoked once the unlink life-cycle event is triggered. Like the load() event, this is also a once-off event. |
@@ -1167,7 +1168,7 @@ The above Rampart App declares a single Rampart Patch rule. The rule has the fol
 In certain cases, there may be multiple locations of the same bytecode instruction with a target function being patched. It is possible to select the exact instruction by using an optional parameter to the function statement called `occurrences`. The occurrences parameter is a Key-Value pair with a key of occurrences and the value is an array of integers that represent each occurrence of the location specifier. Only the specified occurrence(s) are patched. If an occurrence has been specified that is out of bounds, i.e. that occurrence does not exist, then it is ignored and the Rampart Patch rule applies where applicable. The occurrences parameter can be specified on the following location specifiers:
 
 | Location | Example | Description |
-| --- | --- | --- |
+| -------- | ------- | ----------- |
 | read() | read("java/io/File.path", occurrences: [2]) | Apply the patch by replacing only the 2nd occurrence of the getfield bytecode instruction of the path field. |
 | readsite() | readsite("java/io/File.path", occurrences: [3, 5]) | Apply the patch immediately before the 3rd and 5th occurrence of the getfield bytecode instruction of the path field. |
 | readreturn() | readreturn("java/io/File.path", occurrences: [4, 6]) | Apply the patch immediately after the 4th and 6th occurrence of the getfield bytecode instruction of the path field. |
@@ -1526,13 +1527,13 @@ Deserial vulnerabilities are covered by:
 One of `rce` or `dos` must be declared in a `marshal` rule. Only one of these can exist in a `marshal` rule and neither can accept any parameter.
 
 | rce | Remote Code Execution |
-| --- | --- |
 | dos | Denial of Service |
 
 ### Then(Action)
 
+| Action | Description |
+| ------ | ----------- |
 | protect | All attempts to deserial are blocked. If configured, a log message is generated with details of the event. |
-| --- | --- |
 | detect | Monitoring mode: the application behaves as normal. If configured, a log message is generated with details of all attempts to deserial. A log message must be specified with this action. |
 
 As part of the action statement, the user may optionally specify the parameter stacktrace: “full”. When this parameter is specified, the stacktrace of the location of the attempted exploit is included in the security log entry.
@@ -1841,16 +1842,21 @@ There are no specific conditions under which XXE protection is configured.
 ### When (Event)
 
 | Keyword | Description |
-| --- | --- |
-| xxe | The keyword xxe is one of two components that must be supplied in the marshal rule with only one being allowed to be configured in a single rule. uri and reference are the only parameters accepted. |
+| ------- | ----------- |
+| xxe | The keyword ‘xxe’ is one of two components that must be supplied in the ‘marshal’ rule with only one being allowed to be configured in a single rule. ‘uri’ and ‘reference’ are the only parameters accepted.|
+
 | Parameter | Description |
-| uri | Only available in allow mode. An array of SYSTEM or PUBLIC URIs/URLs, declared within the DTD, that are required to be allowed. |
-| reference | Only available in protect mode. Defines two limits; • limit: The number of general entity references allowed before the Rampart marshal rule triggers. The default value is 0. • expansion-limit: The expanded string length that can be used before the protection kicks in. The default value is 0. |
+| --------- | ----------- |
+| uri | Only available in ‘allow’ mode. An array of ‘SYSTEM’ or ‘PUBLIC’ URIs/URLs, declared within the DTD, that are required to be allowed. |
+| reference | Only available in `protect` mode. Defines two limits:
+• ‘limit’: The number of general entity references allowed before the Rampart marshal rule triggers. The default value is ‘0’.
+• ‘expansion-limit’: The expanded string length that can be used before the protection kicks in. The default value is ‘0’. |
 
 ### Then (Action)
 
+| Action | Description |
+| ------ | ----------- |
 | protect | When the rule triggers, the application is prevented from parsing / processing the XML, therefore obviating the XXE attack vector. If configured, a log message is generated with details of the event. |
-| --- | --- |
 | detect | Monitoring mode: the application behaves as normal. A log message is generated with details of the event. A log message must be specified with this action. |
 | allow | An attempt that would otherwise be considered an attack has been allowed, and the application continues as normal. If configured, a log message is generated with details of the event. With this action, the 'uri' parameter must be used to define a list of allowed URIs/URLs. |
 
@@ -1975,6 +1981,11 @@ The rule cannot contain duplicate statements, however, multiple 'dns' rules ar
 
 | lookup | The ‘lookup’ takes a single parameter (string literal) where valid values are a quoted-hostname, a quoted-IPv4 address, or the constant ‘any’ indicating any hostname or IPv4 address.
 ```
+lookup("example.com")
+lookup("127.0.0.1")
+lookup(any)
+```
+IPv6 addresses are not currently supported. |
 
 ## Then (Action)
 
@@ -1982,8 +1993,9 @@ An Action accepts a `message` as its parameter.
 
 An action may optionally specify a severity. The value of ‘severity’ may be an integer in the range of 0-10 (0 is the lowest level and 10 is the highest level) or one of `Low’, ‘Medium’, ‘High’ or ‘Very-High`(case insensitive). The default severity is unknown.
 
+| Action | Description |
+| ------ | ----------- |
 | protect | The DNS lookup is not allowed to proceed. If configured, a log message is generated with details of the event. |
-| --- | --- |
 | detect | Monitoring mode: the application behaves as normal; the DNS lookup is allowed to proceed. If configured, a log message is generated detailing that the agent has detected an attempt to carry out a DNS lookup. A log message must be specified with this action. |
 | allow | Can be used to allow specific IP addresses/hostnames to be looked up without being blocked by other DNS rule(s). |
 
@@ -2064,19 +2076,26 @@ The Rampart library rule can be used to control native library loading. This is 
 
 ## Given (Condition)
 
-To control native library loading using the Rampart library rule the user must specify the load declaration.
+To control native library loading using the Rampart ‘library’ rule the user must specify the ‘load’ declaration.
 
-| load | A parameter must be supplied to the load declaration to specify the libraries to which the Rampart library rule controls loading. Both Unix and Windows filesystem paths are supported This parameter takes the form of a list of one or more quoted-strings indicating specifically targeted native libraries and directories containing such native libraries. Each string represented in the parameter can be: • a single library name - the agent controls access to any library on the filesystem that matches the given name • an absolute path to a specific library The wildcard character (*) is supported anywhere in the library name or path: • only one wildcard character can be used with each path • the wildcard can only wildcard a single directory • the wildcard can be used to specify all libraries with a specific prefix • the wildcard character specified on its own represents all native libraries on the filesystem |
-| --- | --- |
+| load | A parameter must be supplied to the ‘load’ declaration to specify the libraries to which the Rampart ‘library’ rule controls loading. Both Unix and Windows filesystem paths are supported. This parameter takes the form of a list of one or more quoted strings indicating specifically targeted native libraries and directories containing such native libraries. Each string represented in the parameter can be:
+• a single library name - the agent controls access to any library on the filesystem that matches the given name
+• an absolute path to a specific library
 
+The wildcard character (*) is supported anywhere in the library name or path:
+• only one wildcard character can be used with each path
+• the wildcard can only target a single directory
+• the wildcard can be used to specify all libraries with a specific prefix
+• the wildcard character specified on its own represents all native libraries on the filesystem |
 ## When (Action)
 
-There are three supported actions for the Rampart library rule: `protect, detect and allow.`
+There are three supported actions for the Rampart ‘library’ rule: `protect’, ‘detect’ and ‘allow.`
 
-| protect | Any attempt to load a protected native library is blocked. If configured, a log message is generated with details of the event. |
-| --- | --- |
-| detect | Monitoring mode: the application behaves as normal. Any attempt to load a native library specified by the Rampart library rule is allowed. If configured, a log message is generated with details of the event. A log message must be specified with this action. |
-| allow | Can be used to allow loading of specific libraries which are a subset of protected libraries covered by an Rampart library rule in protect mode. |
+| Action | Description |
+| ------ | ----------- |
+| protect | Any attempt to load a protected native library is blocked. If configured, a log message is generated with details of the event. |
+| detect | Monitoring mode: the application behaves as normal. Any attempt to load a native library specified by the Rampart ‘library’ rule is allowed. If configured, a log message is generated with details of the event. A log message must be specified with this action. |
+| allow | Can be used to allow loading of specific libraries which are a subset of protected libraries covered by a Rampart ‘library’ rule in `protect` mode. |
 
 
 As part of the action statement, the user may optionally specify the parameter 'stacktrace: “full”'. When this parameter is specified, the stacktrace of the location of the attempted exploit is included in the security log entry.
@@ -2275,27 +2294,32 @@ The Path Traversal rule can be used to protect against both relative and absol
 
 ### Given (Condition)
 
-The Path Traversal security feature is enabled using the Rampart filesytem rule. With this rule the user can specify a single condition - `input`.
+The Path Traversal security feature is enabled using the Rampart 'filesytem' rule. With this rule the user can specify a single condition - `input`.
 
-| input | This allows the user to specify the source of the untrusted data. The following three sources are supported: • http data introduced via HTTP/HTTPS requests • database data introduced via JDBC connections • deserialization data introduced via Java or XML deserialization The rule triggers if the source of the untrusted data matches that specified in the rule. If no value is specified then a default value of http is used. An exception is thrown if an unsupported value is provided. |
-| --- | --- |
+| input | This allows the user to specify the source of the untrusted data. The following three sources are supported:
+• ‘http’ data introduced via HTTP/HTTPS requests
+• ‘database’ data introduced via JDBC connections
+• ‘deserialization’ data introduced via Java or XML deserialization
+The rule triggers if the source of the untrusted data matches that specified in the rule. If no value is specified then a default value of ‘http’ is used. An exception is thrown if an unsupported value is provided. |
 
-⚠️
-
-This rule provides protection **only** when user input is received via an API that is enabled in the input declaration of the rule.
+⚠️ This rule provides protection only when user input is received via an API that is enabled in the 'input' declaration of the rule.
 
 ### When (Event)
 
-| traversal | This is a mandatory condition that allows the user to specify the type of path traversal protection to enable. The following protection types are supported: • relative • absolute Each rule may contain a single protection type. If no value is specified then, by default, protection is enabled for both relative and absolute path traversal attacks. |
-| --- | --- |
+| traversal | This is a mandatory condition that allows the user to specify the type of path traversal protection to enable. The following protection types are supported:
+• ‘relative’
+• ‘absolute’
+Each rule may contain a single protection type. If no value is specified then, by default, protection is enabled for both ‘relative’ and ‘absolute’ path traversal attacks. |
 
 ### Then (Action)
 
-| protect | Path traversal attacks are blocked by the agent. If configured, a log message is generated with details of the event. |
-| --- | --- |
-| detect | Monitoring mode: the application behaves as normal. Path Traversal attacks are allowed by the agent. If configured, a log message is generated with details of the event. A log message must be specified with this action. |
+| Action | Description |
+| ------ | ----------- |
+| protect | Path traversal attacks are blocked by the agent. If configured, a log message is generated with details of the event. |
+| detect | Monitoring mode: the application behaves as normal. Path Traversal attacks are allowed by the agent. If configured, a log message is generated with details of the event. A log message must be specified with this action. |
 
-As part of the action statement, the user may optionally specify the parameter stacktrace: “full”. When this parameter is specified, the stacktrace of the location of the attempted exploit is included in the security log entry.
+
+As part of the action statement, the user may optionally specify the parameter 'stacktrace: “full”'. When this parameter is specified, the stacktrace of the location of the attempted exploit is included in the security log entry.
 
 ### Example
 
@@ -2435,12 +2459,13 @@ The wildcard character (*) is supported anywhere in the file name or path:
 
 There are three supported actions for the Rampart filesystem rule: protect***,*** detect and allow*.*
 
-| protect | All attempts to read from or write to a protected file are blocked. If configured, a log message is generated with details of the event. |
-| --- | --- |
-| detect | Monitoring mode: the application behaves as normal. A log message is generated with details of all attempts to read from or write to a protected file. A log message must be specified with this action. |
-| allow | Can be used to allow access to specific files or directories under a parent directory that is covered by an Rampart filesystem rule in protect mode. |
+| Action | Description |
+| ------ | ----------- |
+| protect | All attempts to read from or write to a protected file are blocked. If configured, a log message is generated with details of the event. |
+| detect | Monitoring mode: the application behaves as normal. A log message is generated with details of all attempts to read from or write to a protected file. A log message must be specified with this action. |
+| allow | Can be used to allow access to specific files or directories under a parent directory that is covered by a Rampart ‘filesystem’ rule in `protect` mode. |
 
-As part of the action statement, the user may optionally specify the parameter stacktrace: “full”. When this parameter is specified, the stacktrace of the location of the attempted exploit is included in the security log entry.
+As part of the action statement, the user may optionally specify the parameter 'stacktrace: “full”'. When this parameter is specified, the stacktrace of the location of the attempted exploit is included in the security log entry.
 
 ## Examples
 
@@ -2902,11 +2927,34 @@ The Rampart Sanitization rule can be used to verify data entering the workflow o
 ## Given (Condition)
 
 | Directive | Attribute | Necessity | Description |
-| --- | --- | --- | --- |
-| request | paths | mandatory | This determines the HTTP endpoints for which protection is enabled. An optional Key-Value pair can be supplied to this declaration where the key is paths and the value can be one of the following (indicating specifically targeted HTTP endpoints) • a quoted string • a list of one or more quoted-strings • the wildcard character (*) is supported to cover multiple URIs. This can be specified as: ◦ a prefix */target.jsp ◦ a suffix /myApplication/* ◦ both a prefix and a suffix */target* • if the wildcard character is one of the characters in the path itself, it has to be escaped using the backslash character \* If no value is specified then protection is applied to all HTTP endpoints by default. If a string value is specified then it must: • not be empty • be a valid relative URI The paths can be configured similar to, • request(paths: ["/api/user",                     "/api/cart"]) |
-| undetermined | values | mandatory | If a payload cannot be cleanly identified as being safe or unsafe then the rule considers these values as being undetermined. If undetermined values are configured as unsafe, then it is handled by the action. If values are considered safe, they are logged for visibility but the action does not take effect. The values can be configured only as, • undetermined(values: safe) • undetermined(values: unsafe) Undetermined values are treated as safe by default. An undetermined value is likely of interest to security engineers. Once satisfied that an application is able to safely handle undetermined values, there is a rule syntax to stop the generation of security events in this case: • undetermined(values: safe, logging: off) |
-| ignore | payload | optional | The rule is used to verify data entering the workflow of a server against known safe and unsafe patterns. Such data is referred to here as a payload, and may be in the form of a String, JSON, or XML. If the rule has marked a payload as being unsafe, but it has been reasoned that the payload is actually safe to use, then this configuration can be used to ignore those payloads. An array of payload values can be specified. The payload can be configured similar to, • ignore(payload: ["abcd", "efgh",                     "1234"]) The payload can be configured along with the attribute in the same ignore declaration. ignore(payload: ["abcd", "efgh",                     "1234"], attribute: ["field1",                     "keyname2"]) |
-|  | attribute | optional | If the Rampart Sanitization has marked a payload as being unsafe, but it has been reasoned that the assignment of that value, or indeed any value, within the codebase won’t be used in a malicious way, then this configuration allows the assignment to happen for the attribute. An attribute could be a class field, or a map value, or URL query parameter. An array of attribute names can be specified. The attribute can be configured similar to, • ignore(attribute: ["field1",                     "keyname2"]) The attribute can be configured along with the payload in the same ignore declaration. ignore(attribute: ["field1",                     "keyname2"], payload: ["abcd",                     "efgh", "1234"]) |
+| --------- | --------- | --------- | ----------- |
+| request | paths | mandatory | This determines the HTTP endpoints for which protection is enabled. An optional Key-Value pair can be supplied to this declaration where the key is ‘paths’ and the value can be one of the following: (indicating specifically targeted HTTP endpoints)
+• a quoted string
+• a list of one or more quoted-strings
+• the wildcard character (*) is supported to cover multiple URIs. This can be specified as:
+	◦ a prefix ‘*/target.jsp’
+	◦ a suffix ‘/myApplication/*‘
+	◦ both a prefix and a suffix ‘*/target*‘
+• if the wildcard character is one of the characters in the path itself, it has to be escaped using the backslash character ‘\*’
+If no value is specified then protection is applied to all HTTP endpoints by default. If a string value is specified then it must:
+• not be empty
+• be a valid relative URI
+The ‘paths’ can be configured similar to:
+• ‘request(paths: ["/api/user", "/api/cart"])’ |
+| undetermined | values | mandatory | If a payload cannot be cleanly identified as being ‘safe’ or ‘unsafe’ then the rule considers these values as being undetermined. If undetermined values are configured as unsafe, then it is handled by the action. If ‘values’ are considered safe, they are logged for visibility but the action does not take effect. The ‘values’ can be configured only as:
+• ‘undetermined(values: safe)’
+• ‘undetermined(values: unsafe)’
+Undetermined values are treated as ‘safe’ by default. An undetermined value is likely of interest to security engineers. Once satisfied that an application is able to safely handle undetermined values, there is a rule syntax to stop the generation of security events in this case:
+• ‘undetermined(values: safe, logging: off)’ |
+| ignore | payload | optional | The rule is used to verify data entering the workflow of a server against known safe and unsafe patterns. Such data is referred to here as a payload and may be in the form of a String, JSON, or XML. If the rule has marked a payload as being unsafe, but it has been reasoned that the payload is actually safe to use, then this configuration can be used to ignore those payloads. An array of payload values can be specified. The ‘payload’ can be configured similar to:
+• ‘ignore(payload: ["abcd", "efgh", "1234"])’
+The ‘payload’ can be configured along with the ‘attribute’ in the same ‘ignore’ declaration:
+• ‘ignore(payload: ["abcd", "efgh", "1234"], attribute: ["field1", "keyname2"])’ |
+| ignore | attribute | optional | If the Rampart Sanitization has marked a payload as being unsafe, but it has been reasoned that the assignment of that value (or indeed any value) within the codebase won’t be used in a malicious way, then this configuration allows the assignment to happen for the attribute. An attribute could be a class field, a map value, or a URL query parameter. An array of attribute names can be specified. The ‘attribute’ can be configured similar to:
+• ‘ignore(attribute: ["field1", "keyname2"])’
+The ‘attribute’ can be configured along with the ‘payload’ in the same ‘ignore’ declaration:
+• ‘ignore(attribute: ["field1", "keyname2"], payload: ["abcd",  "efgh", "1234"])’ |
+
 
 ## When (Event)
 
@@ -3052,8 +3100,42 @@ The socket rule begins with a `socket` and ends with an `endsocket`. It must c
 
 ## Given (Condition)
 
-| --- | --- |
-| connect accept | accept and connect require only a single parameter which is the IPv4 address and port for accepting connections from and to a remote address, respectively. Hostnames may also be used. Wildcard for IPv4 addresses is specified by 0.0.0.0, and wildcard for port is specified by 0. The following are examples of accept and connect conditions specifying wildcarded IPv4 addresses and wildcarded port; accept("0.0.0.0:0") accept("localhost:0") connect("0.0.0.0:0") connect("localhost:0") Specific IPv4 and/or port numbers may be specified, hostnames may also be specified. For example; accept("127.0.0.1:5001") accept("0.0.0.0:5001") connect("127.0.0.1:8080") connect("127.0.0.1:0") Port ranges may be specified, for example; accept("127.0.0.1:5000-5100") connect("0.0.0.0:8080-8100") |
+| bind | The bind takes the following key-value pairs as parameters: ‘client’ and ‘server’. They can be used simultaneously within ‘bind’. The value for both ‘client’ and ‘server’ keys within ‘bind’ is a quoted-string composed of the IP address of the local interface and the port, separated by a colon. Wildcard for IPv4 addresses is specified by ‘0.0.0.0’, and wildcard for port is specified by ‘0’. The following are examples of ‘bind’ conditions, specifying wildcarded IPv4 addresses and wildcarded port:
+```
+bind(client: "0.0.0.0:0")
+bind(server: "0.0.0.0:0")
+bind(server: "0.0.0.0:0", client: "0.0.0.0:0")
+```
+Specific IPv4 and/or port numbers may be specified, for example:
+```
+bind(client: "127.0.0.1:80")
+bind(server: "127.0.0.1:0")
+bind(client: "0.0.0.0:80")
+```
+Port ranges may be specified, for example:
+```
+bind(client: "0.0.0.0:80-90")
+bind(server: "0.0.0.0:8080-8090")
+bind(server: "127.0.0.1:8080-8090") |
+| accept and connect | ‘accept’ and ‘connect’ require only a single parameter which is the IPv4 address and port for accepting connections from and to a remote address, respectively. Hostnames may also be used. Wildcard for IPv4 addresses is specified by ‘0.0.0.0’, and wildcard for port is specified by ‘0’. The following are examples of ‘accept’ and ‘connect’ conditions specifying wildcarded IPv4 addresses and wildcarded port:
+```
+accept("0.0.0.0:0")
+accept("localhost:0")
+connect("0.0.0.0:0")
+connect("localhost:0")
+```
+Specific IPv4 and/or port numbers may be specified; hostnames may also be specified. For example:
+```
+accept("127.0.0.1:5001")
+accept("0.0.0.0:5001")
+connect("127.0.0.1:8080")
+connect("127.0.0.1:0")
+```
+Port ranges may be specified, for example:
+```
+accept("127.0.0.1:5000-5100")
+connect("0.0.0.0:8080-8100")
+``` |
 
 It is possible to create multiple Rampart socket rules with overlapping or overarching conditions. The agent handles this configuration by selecting only a single rule and applies the action defined in it. The agent uses the following criteria for selection:
 
@@ -3064,10 +3146,11 @@ It is possible to create multiple Rampart socket rules with overlapping or overa
 
 ## Then (Action)
 
-| protect | Block network connections to or from an IP address and port combination specified in the socket rule. If configured, a log message is generated with details of the event. |
-| --- | --- |
-| allow | Allow network connections to or from an IP address and port combination specified in the socket rule. If configured, a log message is generated with details of the event. |
-| detect | Monitoring mode: the application behaves as normal. Network connections to or from an IP address and port combination specified in the socket rule are logged only. A log message must be specified with this action. |
+| Action | Description |
+| ------ | ----------- |
+| protect | Block network connections to or from an IP address and port combination specified in the 'socket' rule. If configured, a log message is generated with details of the event. |
+| allow | Allow network connections to or from an IP address and port combination specified in the 'socket' rule. If configured, a log message is generated with details of the event. |
+| detect | Monitoring mode: the application behaves as normal. Network connections to or from an IP address and port combination specified in the 'socket' rule are logged only. A log message must be specified with this action. |
 
 As part of the action statement, the user may optionally specify the parameter `stacktrace: "full”`. When this parameter is specified, the stacktrace of the location of the attempted exploit is included in the security log entry.
 
@@ -3321,8 +3404,9 @@ The TLS-Upgrade rule only upgrades SSL/TLS server sockets when using the default
 
 ## Then (Action)
 
-| protect | Upgrade SSL/TLS server sockets. If configured, a log message is generated with details of the event. The stacktrace: "full" action parameter is not a valid configuration for the TLS-Upgrade rule. If configured, a log message is generated with details of the event. |
-| --- | --- |
+| Action | Description |
+| ------ | ----------- |
+| protect | Upgrade SSL/TLS server sockets. If configured, a log message is generated with details of the event. The `stacktrace: "full"` action parameter is not a valid configuration for the TLS-Upgrade rule. If configured, a log message is generated with details of the event. |
 
 ## Examples
 
@@ -3358,39 +3442,54 @@ A SQL injection (SQLi) attack consists of the insertion or “injection” of 
 
 The user can specify two conditions in the Rampart `sql` rule - `input` and `vendor`.
 
-| input | This allows the user to specify the source of the untrusted data. The following three sources are supported: • http data introduced via HTTP/HTTPS requests • database data introduced via JDBC connections • deserialization data introduced via Java or XML deserialization The rule triggers if the source of the untrusted data matches that specified in the rule. If no value is specified then a default value of http is used. An exception is thrown if an unsupported value is provided. |
-| --- | --- |
-| vendor | This is an optional declaration that allows the user to specify the database type to be protected. The following databases are supported: • db2 • mariadb • mssql • mysql • oracle • sybase • postgres In addition, a value of any may be specified which enables the agent to automatically detect the database type used by the application. One of the listed database types, or the value any, must be specified if the vendor declaration is present. If no vendor declaration is specified then a default value of any is used. |
-|  | options Depending on the database configuration, the following optional parameters are also supported to allow the agent to accurately detect SQL injection attacks: • ansi-quotes - mysql and mariadb: corresponds to the ANSI_QUOTES server mode. • no-backslash-escapes - mysql and mariadb: corresponds to the NO_BACKSLASH_ESCAPES server mode. • quoted-identifiers - mssql and sybase: corresponds to the QUOTED_IDENTIFIER flag |
+| input | This allows the user to specify the source of the untrusted data. The following three sources are supported:
+• `http` data introduced via HTTP/HTTPS requests
+• `database` data introduced via JDBC connections
+• `deserialization` data introduced via Java or XML deserialization
+The rule triggers if the source of the untrusted data matches that specified in the rule. If no value is specified then a default value of `http` is used. An exception is thrown if an unsupported value is provided. |
+| vendor | This is an optional declaration that allows the user to specify the database type to be protected. The following databases are supported:
+• `db2`
+• `mariadb`
+• `mssql`
+• `mysql`
+• `oracle`
+• `sybase`
+• `postgres`
+In addition, a value of `any` may be specified which enables the agent to automatically detect the database type used by the application. One of the listed database types, or the value `any`, must be specified if the `vendor` declaration is present. If no `vendor` declaration is specified then a default value of `any` is used. |
+| vendor | options | Depending on the database configuration, the following optional parameters are also supported to allow the agent to accurately detect SQL injection attacks: • `ansi-quotes` - `mysql` and `mariadb`: corresponds to the ANSI_QUOTES server mode.
+• `no-backslash-escapes` - `mysql` and `mariadb`: corresponds to the NO_BACKSLASH_ESCAPES server mode.
+• `quoted-identifiers` - `mssql` and `sybase`: corresponds to the QUOTED_IDENTIFIER flag |
 
 ## When (Event)
 
-| injection | This condition allows the user to specify the type of injection: • successful-attempt the rule triggers upon detecting a valid SQLi payload that would have resulted in a successful SQLi attack, exploiting the underlying database. • failed-attempt the rule triggers upon detecting an invalid SQLi payload that would have resulted in an unsuccessful SQLi attack, which could expose the underlying database configuration or vendor. If no value is specified then a default value of successful-attempt is used. In addition, the user may optionally specify the following parameter: • permit: query-provided the rule does not trigger in the case where the entire SQL query (and not just part of it) has come from any of the untrusted sources defined in the input declaration. An exception is thrown if an unsupported value is provided. |
-| --- | --- |
+| injection | This condition allows the user to specify the type of injection:
+• `successful-attempt` the rule triggers upon detecting a valid SQLi payload that would have resulted in a successful SQLi attack, exploiting the underlying database.
+• `failed-attempt` the rule triggers upon detecting an invalid SQLi payload that would have resulted in an unsuccessful SQLi attack, which could expose the underlying database configuration or vendor.
+If no value is specified then a default value of `successful-attempt` is used.
+In addition, the user may optionally specify the following parameter:
+• `permit: query-provided` the rule does not trigger in the case where the entire SQL query (and not just part of it) has come from any of the untrusted sources defined in the input declaration.
+An exception is thrown if an unsupported value is provided. |
 
-ℹ️
-
-Multiple `sql` rules are allowed in the same Rampart mod providing they have different injection types.
+ℹ️ Multiple `sql` rules are allowed in the same Rampart mod providing they have different injection types.
 
 ## Then (Action)
 
-The action statement specifies the action the agent takes whenever an attack is detected. There are two supported actions, `protect`and `detect.`
+The action statement specifies the action the agent takes whenever an attack is detected. There are two supported actions, `protect`and `detect`:
 
-| protect | A valid SQL injection attack is not allowed to be processed by the database. If configured, a log message is generated with details of the event. |
-| --- | --- |
-| detect | Monitoring mode: the application behaves as normal. SQLi attack are allowed by the agent. If configured, a log message is generated with details of the event. A log message must be specified with this action. |
+| Action | Description |
+| ------ | ----------- |
+| protect | A valid SQL injection attack is not allowed to be processed by the database. If configured, a log message is generated with details of the event. |
+| detect | Monitoring mode: the application behaves as normal. SQLi attacks are allowed by the agent. If configured, a log message is generated with details of the event. A log message must be specified with this action. |
 
 In the case of `protect`, if no additional configuration is given, the rule takes a default action depending on which of the injection types has occurred. A specific action can be configured for this rule to send an HTTP response with a specified status code and a message as body. These configurations are further described in the table below.
 
-🗒️
+ℹ️ Only the HTTP 400 (Bad Request) status code is currently supported in the `protect` action declaration.
 
-Only the **HTTP** **400 (Bad Request)** status code is currently supported in the protect action declaration.
-
-|  |  | successful-attempt | failed-attempt |
-| --- | --- | --- | --- |
-| protect | default | A SQLException is thrown by the agent to indicate the SQL statement is invalid, letting the server handle the exception gracefully. | The HTTP connection, from which the malicious data that exploited the SQL statement originated, is disconnected. |
-|  | send HTTP error | The server responds back to the web client with a brand new HTTP response that has been configured with a status code (HTTP 400 Bad Request). | The server responds back to the web client with a brand new HTTP response that has been configured with a status code (HTTP 400 Bad Request). |
-| detect |  | The SQL injection attack is allowed to be processed by the database. | The invalid SQL statement is allowed to be processed by the database. |
+| action | setting | successful-attempt | failed-attempt |
+| ------ | ------- | ------------------ | -------------- |
+| protect | default | A SQLException is thrown by the agent to indicate that the SQL statement is invalid, letting the server handle the exception gracefully. | The HTTP connection, from which the malicious data that exploited the SQL statement originated, is disconnected. |
+| protect | send HTTP error | The server responds back to the web client with a brand new HTTP response that has been configured with a status code (HTTP 400 Bad Request). | The server responds back to the web client with a brand new HTTP response that has been configured with a status code (HTTP 400 Bad Request). |
+| detect | --- | The SQL injection attack is allowed to be processed by the database. | The invalid SQL statement is allowed to be processed by the database. |
 
 As part of the action statement, the user may optionally specify the parameter `stacktrace: “full”`. When this parameter is specified, the stacktrace of the location of the attempted exploit is included in the security log entry.
 
@@ -3558,24 +3657,69 @@ If none of the origin headers are present, the origin validation cannot be perfo
 
 The CSRF security feature is enabled using the Rampart `http` rule. With this rule the user specifies the condition `request`.
 
-| request | This declaration determines the HTTP endpoints for which protection is enabled. |  |
-| --- | --- | --- |
-|  | synchronized-tokens | This declaration is specified with no parameters. Protection is enabled for all HTTP endpoints. |
-|  | same-origin | An optional Key-Value pair can be supplied to this declaration where the key is paths and the value can be one of the following (indicating specifically targeted HTTP endpoints):- • a quoted string • a list of one or more quoted-strings • the wildcard character (*) is supported to cover multiple URIs. This can be specified as: ◦ a prefix */target.jsp ◦ a suffix /myApplication/* ◦ both a prefix and a suffix */target* • if the wildcard character is one of the characters in the path itself, it has to be escaped using the backslash character \* If no value is specified then protection is applied to all HTTP endpoints by default. If a string value is specified then it must: • not be empty • be a valid relative URI |
+| request | This declaration determines the HTTP endpoints for which protection is enabled. |
+| request | synchronized-tokens | This declaration is specified with no parameters. Protection is enabled for all HTTP endpoints. |
+| request | same-origin | An optional Key-Value pair can be supplied to this declaration where the key is `paths` and the value can be one of the following (indicating specifically targeted HTTP endpoints):
+• a quoted string
+• a list of one or more quoted-strings
+• the wildcard character (*) is supported to cover multiple URIs. This can be specified as:
+	◦ a prefix `*/target.jsp`
+	◦ a suffix `/myApplication/*`
+	◦ both a prefix and a suffix `*/target*`
+• if the wildcard character is one of the characters in the path itself, it has to be escaped using the backslash character `\*`
+If no value is specified then protection is applied to all HTTP endpoints by default. If a string value is specified then it must:
+• not be empty
+• be a valid relative URI |
 
 ## When (Event)
 
-| csrf | This declaration switches on the CSRF security feature and must be declared with one of the following values: • synchronized-tokens enabling CSRF protection via STP • same-origin enabling CSRF protection via validation of origin headers |  |
-| --- | --- | --- |
-|  | synchronized-tokens | With this protection enabled, the following options may also be specified:  • exclude ◦ disable protection for any specific URIs ◦ if this option is not specified the default value is an empty exclusion list, therefore enabling protection for all web-pages ◦ specific URIs can be specified as a single string literal, or a non-empty array of one or more string literals ◦ the wildcard character (*) is supported to cover multiple URIs. This can be specified as: ▪ a prefix */safe.jsp ▪ a suffix /myApplication/* ▪ both a prefix and a suffix */safe* • method ◦ specify the particular HTTP method(s) for which to enable protection (currently supported values are GET and POST) ◦ if this option is not specified - the default value is POST • token-type ◦ specify if a different token should be generated for each HTTP method type, or if a shared value is to be used for all HTTP method types (supported values are shared or unique) ◦ if this option is not specified the default value is shared • token-name ◦ specify the name of the token to be injected into the HTML ◦ token names must be between 5 - 20 characters long, and each character of the token name must be URL safe ◦ if this option is not specified the default value is _X-CSRF-TOKEN • ajax ◦ specify whether the agent should validate AJAX requests (supported values are validate or no-validate) ◦ if this option is not specified the default value is validate |
-|  | same-origin | With this protection enabled, the following options may also be specified:  • exclude ◦ disable protection for any specific URIs ◦ if this option is not specified the default value is an empty exclusion list, therefore enabling protection for all web-pages ◦ specific URIs can be specified as a single string literal, or a non-empty array of one or more string literals ◦ the wildcard character (*) is supported to cover multiple URIs. This can be specified as: ▪ a prefix */safe.jsp ▪ a suffix /myApplication/* ▪ both a prefix and a suffix */safe* • hosts ◦ should the source origin not match the target origin, even for a non-malicious request, this option can be used to whitelist known safe origins ◦ can specify a single string literal, or a non-empty array of one or more string literals ◦ each string should comprise a host name and optional port number, separated by a colon. This option can be used to whitelist both high level domains, or specific hostnames. For example, specifying  mydomain.com  allows requests from various hosts within this domain, such as server1.mydomain.com  and server2.mydomain.com. |
+| csrf | This declaration switches on the CSRF security feature and must be declared with one of the following values:
+• `synchronized-tokens` enabling CSRF protection via STP
+• `same-origin` enabling CSRF protection via validation of origin headers |
+| csrf  | synchronized-tokens | With this protection enabled, the following `options` may also be specified:
+• `exclude`
+	◦ disable protection for any specific URIs
+	◦ if this option is not specified the default value is an empty exclusion list, therefore enabling protection for all web-pages
+	◦ specific URIs can be specified as a single string literal, or a non-empty array of one or more string literals
+	◦ the wildcard character (*) is supported to cover multiple URIs. This can be specified as:
+		▪ a prefix `*/safe.jsp`
+		▪ a suffix `/myApplication/*`
+		▪ both a prefix and a suffix `*/safe*`
+• `method`
+	◦ specify the particular HTTP method(s) with which to enable protection (currently supported values are `GET` and `POST`)
+	◦ if this option is not specified - the default value is `POST`
+• `token-type`
+	◦ specify if a different token should be generated for each HTTP method type, or if a shared value is to be used for all HTTP method types (supported values are `shared` or `unique`)
+	◦ if this option is not specified the default value is `shared`
+• `token-name`
+	◦ specify the name of the token to be injected into the HTML
+	◦ token names must be between 5 - 20 characters long, and each character of the token name must be URL safe
+	◦ if this option is not specified the default value is `_X-CSRF-TOKEN`
+• `ajax`
+	◦ specify whether the agent should validate AJAX requests (supported values are `validate` or `no-validate`)
+	◦ if this option is not specified the default value is `validate` |
+| csrf | same-origin | With this protection enabled, the following options may also be specified:
+• `exclude`
+	◦ disable protection for any specific URIs
+	◦ if this option is not specified the default value is an empty exclusion list, therefore enabling protection for all web-pages
+	◦ specific URIs can be specified as a single string literal, or a non-empty array of one or more string literals
+	◦ the wildcard character (*) is supported to cover multiple URIs. This can be specified as:
+		▪ a prefix `*/safe.jsp`
+		▪ a suffix `/myApplication/*`
+		▪ both a prefix and a suffix `*/safe*`
+• `hosts`
+	◦ should the source origin not match the target origin, even for a non-malicious request, this option can be used to whitelist known safe origins
+	◦ can specify a single string literal, or a non-empty array of one or more string literals
+	◦ each string should comprise a host name and optional port number, separated by a colon.
+This option can be used to whitelist both high-level domains, or specific hostnames. For example, specifying `mydomain.com`  allows requests from various hosts within this domain, such as `server1.mydomain.com`  and `server2.mydomain.com`. |
 
 ## Then (Action)
 
-|  | synchronized-tokens | same-origin |
-| --- | --- | --- |
-| protect | CSRF attacks are blocked by the agent. The malicious HTTP request is terminated and an HTTP 403 response is returned to the client. If configured, a log message is generated with details of the event. | If a CSRF attack is identified then the malicious HTTP request is not terminated, but all of its HTTP parameters and cookies are considered malicious and are stripped from the request, rendering it safe. |
-| detect | Monitoring mode: the application behaves as normal. Malicious HTTP requests that are the result of a CSRF attack are allowed to be processed by the application. If configured, a log message is generated with details of the event. A log message must be specified with this action. |  |
+| action | feature | description |
+| ------ | ------- | ----------- |
+| protect | synchronized-tokens | CSRF attacks are blocked by the agent. The malicious HTTP request is terminated and an HTTP 403 response is returned to the client. If configured, a log message is generated with details of the event. |
+| protect | same-origin | If a CSRF attack is identified then the malicious HTTP request is not terminated, but all of its HTTP parameters and cookies are considered malicious and are stripped from the request, rendering it safe. |
+| detect | --- | Monitoring mode: the application behaves as normal. Malicious HTTP requests that are the result of a CSRF attack are allowed to be processed by the application. If configured, a log message is generated with details of the event. A log message must be specified with this action. |
 
 As part of the action statement, the user may optionally specify the parameter `stacktrace: “full”`. When this parameter is specified, the stacktrace of the location of the attempted exploit is included in the security log entry.
 
@@ -3798,21 +3942,29 @@ The HTTP Response Header Injection security feature is enabled using the Rampart
 
 To enable the HTTP Header Injection security feature using the Rampart `http` rule the user specifies the response declaration.
 
-| response | This determines the HTTP endpoints for which protection is enabled. An optional Key-Value pair can be supplied to this declaration where the key is paths and the value can be one of the following (indicating specifically targeted HTTP endpoints) :- • a quoted string • a list of one or more quoted-strings If no value is specified then protection is applied to all HTTP endpoints by default. If a string value is specified then it must: • not be empty • be a valid relative URI Only one Rampart http rule for HTTP Header Injection protection is allowed to be defined for a given HTTP endpoint. |
-| --- | --- |
+| response | This determines the HTTP endpoints for which protection is enabled. An optional Key-Value pair can be supplied to this declaration where the key is `paths` and the value can be one of the following (indicating specifically targeted HTTP endpoints) :
+• a quoted string
+• a list of one or more quoted strings
+If no value is specified then protection is applied to all HTTP endpoints by default. If a string value is specified then it must:
+• not be empty
+• be a valid relative URI
+Only one Rampart `http` rule for HTTP Header Injection protection is allowed to be defined for a given HTTP endpoint. |
 
 ## When (Event)
 
 The header injection rule supports one event - `injection`
 
-| injection | This is a mandatory declaration that allows the user to specify the target type for which the Rampart http rule should enable HTTP response header injection protection. The following target types are supported: • headers - protect against injection into HTTP response headers • cookies - protect against injection into HTTP response cookies |
-| --- | --- |
+| injection | This is a mandatory declaration that allows the user to specify the target type for which the Rampart `http` rule should enable HTTP response header injection protection. The following target types are supported:
+• headers - protect against injection into HTTP response headers
+• cookies - protect against injection into HTTP response cookies |
 
 ## Then (Action)
 
-| protect | If an HTTP response header or cookie contains user-controlled newline characters then the offending header or cookie is removed from the HTTP response. If configured, a log message is generated with details of the event. |
-| --- | --- |
-| detect | Monitoring mode: the application behaves as normal. HTTP response headers or cookies contain user-controlled newline characters are allowed by the agent. If configured, a log message is generated with details of the event. A log message must be specified with this action. |
+| Action | Description |
+| ------ | ----------- |
+| protect | If an HTTP response header or cookie contains user-controlled newline characters then the offending header or cookie is removed from the HTTP response. If configured, a log message is generated with details of the event. |
+| detect | Monitoring mode: the application behaves as normal. HTTP response headers or cookies contain user-controlled newline characters that are allowed by the agent. If configured, a log message is generated with details of the event. A log message must be specified with this action. |
+
 
 ## Examples
 
@@ -3884,14 +4036,26 @@ The Rampart Redirect security feature can be used to enable protection against O
 
 The user can specify two conditions in the Rampart `http` rule to enable the Rampart Redirect security feature - `input` and `response`.
 
-| input | This allows the user to specify the source of the untrusted data. The following three sources are supported: • http data introduced via HTTP/HTTPS requests • database data introduced via JDBC connections • deserialization data introduced via Java or XML deserialization The rule triggers if the source of the untrusted data matches that specified in the rule. If no value is specified then a default value of http is used. An exception is thrown if an unsupported value is provided. |
-| --- | --- |
+| input | This allows the user to specify the source of the untrusted data. The following three sources are supported:
+• `http` data introduced via HTTP/HTTPS requests
+• `database` data introduced via JDBC connections
+• `deserialization` data introduced via Java or XML deserialization The rule triggers if the source of the untrusted data matches that specified in the rule. If no value is specified then a default value of `http` is used. An exception is thrown if an unsupported value is provided. |
 | response | This allows the user to specify that protection is required for an HTTP/HTTPS response. |
 
 ## When (Event)
 
-| open-redirect | This condition allows the user to specify that protection against open redirect attacks is required. This can be declared empty, without any parameters, indicating that protection against open redirects is required for all external domains or IP addresses.   Alternatively, the user may specify the following options as a parameter: • open-redirect(options: {exclude: subdomains}) This option is useful for applications that require open redirects to subdomains of the same root domain to be allowed. Specifying the exclude: subdomains option allows all HTTP server-side redirects to URLs as long as the parent subdomain or root domain is the same as the application’s domain. For example: • if the domain of the application is foo.com, then it may be necessary to allow open redirects to subdomains such as: ◦ bar.foo.com ◦ example.foo.com • if the domain of the application is something.foo.com then it may be necessary to allow open redirects to another domain that has the same parent domain, such as: ◦ somethingElse.foo.com   It is also possible to specify the list of host names for which the rule applies, which is useful in cases when the application does need to allow the open-redirect to selected hosts. • open-redirect(hosts: ["www.example.com",                     "www.example.net"]) When the rule is defined for a single host name, the following alternative syntax is allowed: • open-redirect(hosts: "www.example.com") |
-| --- | --- |
+| open-redirect | This condition allows the user to specify that protection against open redirect attacks is required. This can be declared empty, without any parameters, indicating that protection against open redirects is required for all external domains or IP addresses.   Alternatively, the user may specify the following options as a parameter:
+• `open-redirect(options: {exclude: subdomains})`
+This option is useful for applications that require open redirects to subdomains of the same root domain to be allowed. Specifying the `exclude: subdomains` option allows all HTTP server-side redirects to URLs as long as the parent subdomain or root domain is the same as the application’s domain. For example:
+• if the domain of the application is `foo.com`, then it may be necessary to allow open redirects to subdomains such as:
+	◦ `bar.foo.com`
+	◦ `example.foo.com`
+• if the domain of the application is `something.foo.com` then it may be necessary to allow open redirects to another domain that has the same parent domain, such as:
+	◦ `somethingElse.foo.com`
+It is also possible to specify the list of host names for which the rule applies, which is useful in cases when the application does need to allow the open-redirect to selected hosts.
+• `open-redirect(hosts: ["www.example.com", "www.example.net"])`
+When the rule is defined for a single host name, the following alternative syntax is allowed:
+• `open-redirect(hosts: "www.example.com")` |
 
 ## Then (Action)
 
@@ -4036,15 +4200,52 @@ The XSS security feature can be used to enable protection against XSS attacks.
 
 The XSS security feature is enabled using the Rampart `http` rule. With this rule the user specifies the two declarations - `input` and `response`.
 
-| input | This allows the user to specify the source of the untrusted data. The following three sources are supported: • http data introduced via HTTP/HTTPS requests • database data introduced via JDBC connections • deserialization data introduced via Java or XML deserialization The rule triggers if the source of the untrusted data matches that specified in the rule. If no value is specified then a default value of http is used. An exception is thrown if an unsupported value is provided. |
-| --- | --- |
-| response | This determines the HTTP endpoints for which protection is enabled. An optional Key-Value pair can be supplied to this declaration where the key is paths and the value can be one of the following (indicating specifically targeted HTTP endpoints) :- • a quoted string • a list of one or more quoted-strings If no value is specified then protection is applied to all HTTP endpoints by default. If a string value is specified then it must: • not be empty • be a valid relative URI |
+| input | This allows the user to specify the source of the untrusted data. The following three sources are supported:
+• `http` data introduced via HTTP/HTTPS requests
+• `database` data introduced via JDBC connections
+• `deserialization` data introduced via Java or XML deserialization.
+The rule triggers if the source of the untrusted data matches that specified in the rule. If no value is specified then a default value of `http` is used. An exception is thrown if an unsupported value is provided. |
+| response | This determines the HTTP endpoints for which protection is enabled. An optional Key-Value pair can be supplied to this declaration where the key is `paths` and the value can be one of the following: (indicating specifically targeted HTTP endpoints)
+• a quoted string
+• a list of one or more quoted-strings
+If no value is specified then protection is applied to all HTTP endpoints by default. If a string value is specified then it must:
+• not be empty
+• be a valid relative URI |
 
 ## When (Event)
 
-| xss | This declaration switches on the XSS security feature and must be declared with the mandatory parameter html. The following options may also be specified:  • exclude ◦ disable protection for any specific URIs ◦ if this option is not specified the default value is an empty exclusion list, therefore enabling protection for all web-pages ◦ specific URIs can be specified as a single string literal, or a non-empty array of one or more string literals ◦ the wildcard character (*) is supported to cover multiple URIs. The wildcard character can be used as: ▪ a prefix */safe.jsp ▪ a suffix /myApplication/* ▪ both a prefix and a suffix */safe* • policy ◦ this allows the user to determine how conservative to configure the XSS security feature ◦ this can be set to either: ▪ loose - enable protection for user controlled changes to the HTML response that actively exploit the application ▪ strict - enable protection for injection of untrusted data into HTML response ◦ if this option is not specified the default value is set to loose. In this configuration, the XSS security feature supports the ability to allow certain HTML tags to be injected into an HTML document from an untrusted source. Allowed tags are generally defined as text formatting and layout elements and, as such, do not alter the behaviour of an application. The full list of allowed tags is defined in sections https://www.w3.org/TR/html5/grouping-content.html#grouping-content, https://www.w3.org/TR/html5/textlevel-semantics.html#textlevel-semantics and https://www.w3.org/TR/html5/tabular-data.html#tabular-data of the HTML5 specification. A tag deemed safe can also be blocked if it contains an attribute that is deemed malicious. All JavaScript event handlers are considered dangerous. The full list of these are defined as part of the section https://www.w3.org/TR/html52/dom.html#global-attributes of the HTML5 specification. ◦ in addition to the JavaScript handlers, the following attributes have also been deemed dangerous due to their capacity to instruct a browser to load an external resource, disable security policies or potentially load personally sensitive details. ▪ async ▪ autocomplete ▪ autoplay ▪ crossorigin ▪ href ▪ integrity ▪ src ▪ srcset ▪ target ▪ text ▪ type |
-| --- | --- |
-
+| xss | This declaration switches on the XSS security feature and must be declared with the mandatory parameter `html`. The following options may also be specified:
+• `exclude`
+	◦ disable protection for any specific URIs
+	◦ if this option is not specified the default value is an empty exclusion list, therefore enabling protection for all web-pages
+	◦ specific URIs can be specified as a single string literal or a non-empty array of one or more string literals
+	◦ the wildcard character (*) is supported to cover multiple URIs. The wildcard character can be used as:
+		▪ a prefix `*/safe.jsp`
+		▪ a suffix `/myApplication/*`
+		▪ both a prefix and a suffix `*/safe*`
+• `policy`
+	◦ this allows the user to determine how conservative to configure the XSS security feature
+	◦ this can be set to either:
+▪ loose - enable protection for user controlled changes to the HTML response that actively exploit the application
+▪ strict - enable protection for injection of untrusted data into HTML response
+	◦ if the policy option is not specified the default value is set to `loose`. In this configuration, the XSS security feature supports the ability to allow certain HTML tags to be injected into an HTML document from an untrusted source. Allowed tags are generally defined as text formatting and layout elements and as such, do not alter the behaviour of an application. The full list of allowed tags is defined in the following HTML5 specification:
+		▪ https://www.w3.org/TR/html5/grouping-content.html#grouping-content
+		▪ https://www.w3.org/TR/html5/textlevel-semantics.html#textlevel-semantics
+		▪ https://www.w3.org/TR/html5/tabular-data.html#tabular-data
+A tag deemed safe can also be blocked if it contains an attribute that is deemed malicious. All JavaScript event handlers are considered dangerous. The full list of these are defined in the following section of the HTML5 specification:
+		▪ https://www.w3.org/TR/html52/dom.html#global-attributes
+	◦ in addition to the JavaScript handlers, the following attributes have also been deemed dangerous due to their capacity to instruct a browser to load an external resource, disable security policies or potentially load personally sensitive details:
+		▪ `async`
+		▪ `autocomplete`
+		▪ `autoplay`
+		▪ `crossorigin`
+		▪ `href`
+		▪ `integrity`
+		▪ `src`
+		▪ `srcset`
+		▪ `target`
+		▪ `text`
+		▪ `type` |
 ## Then (Action)
 
 | Action | Description |
@@ -4188,17 +4389,47 @@ The Input Validation security feature is enabled using the Rampart `http` rule, 
 
 To enable the input validation security feature using the Rampart `http` rule the user specifies the `request` declaration.
 
-| request | This determines the HTTP endpoints for which protection is enabled. An optional Key-Value pair can be supplied to this declaration where the key is paths and the value can be one of the following (indicating specifically targeted HTTP endpoints) :- • a quoted string • a list of one or more quoted-strings • the wildcard character (*) is supported to cover multiple URIs. This can be specified as: ◦ a prefix */target.jsp ◦ a suffix /myApplication/* ◦ both a prefix and a suffix */target* • if the wildcard character is one of the characters in the path itself, it has to be escaped using the backslash character \* If no value is specified then protection is applied to all HTTP endpoints by default. If a string value is specified then it must: • not be empty • be a valid relative URI |
-| --- | --- |
-
+| request | This determines the HTTP endpoints for which protection is enabled. An optional Key-Value pair can be supplied to this declaration where the key is `paths` and the value can be one of the following: (indicating specifically targeted HTTP endpoints)
+• a quoted string
+• a list of one or more quoted-strings
+• the wildcard character (*) is supported to cover multiple URIs. This can be specified as:
+	◦ a prefix `*/target.jsp`
+	◦ a suffix `/myApplication/*`
+	◦ both a prefix and a suffix `*/target*`
+• if the wildcard character is one of the characters in the path itself, it has to be escaped using the backslash character `\*`
+If no value is specified then protection is applied to all HTTP endpoints by default. If a string value is specified then it must:
+• not be empty
+• be a valid relative URI |
 ## When (Event)
 
-| validate | Two separate key-value pairs are required for this declaration to switch on input validation protection. Valid values for the first key include: • parameters, cookies, headers Valid values for the second key include: • is |  |
-| --- | --- | --- |
-|  | headers | • The headers key is used to enable input validation of HTTP request headers. • The value of the headers key defines the names of one or more HTTP request headers whose values must be validated. • Empty header names are not allowed. |
-|  | parameters | • The parameters key is used to enable input validation of HTTP request parameters. • The value of the parameters key defines the names of one or more HTTP request parameters whose values must be validated. • Empty parameter names are not allowed |
-|  | cookies | • The cookies key is used to enable input validation of HTTP request cookies. • The value of the cookies key defines the names of one or more HTTP request cookies whose values must be validated. • Empty cookie names are not allowed |
-|  | is | • The is key indicates the values that are permitted, or the validation rules that must be adhered to, for the given validation target. • Possible values for the is key are: ◦ integer ◦ integer-positive ◦ integer-unsigned ◦ alphanumeric ◦ sql-no-single-quotes ◦ sql-no-double-quotes ◦ html-no-single-quotes ◦ html-no-double-quotes ◦ html-attribute-unquoted ◦ html-text • Alternatively, the user may specify a valid regular expression (according to the platform's regular expression syntax) • In addition, the value can be a list comprised of more than one of any of the above types |
+| validate | Two separate key-value pairs are required for this declaration to switch on input validation protection. Valid values for the first key include:
+• `parameters`, `cookies`, `headers`
+Valid values for the second key include:
+• `is` |
+| validate | headers | • The `headers` key is used to enable input validation of HTTP request headers.
+• The value of the `headers` key defines the names of one or more HTTP request headers whose values must be validated.
+• Empty header names are not allowed. |
+| validate | parameters |
+• The `parameters` key is used to enable input validation of HTTP request parameters.
+• The value of the `parameters` key defines the names of one or more HTTP request parameters whose values must be validated.
+• Empty parameter names are not allowed |
+| validate | cookies | • The `cookies` key is used to enable input validation of HTTP request cookies.
+• The value of the `cookies` key defines the names of one or more HTTP request cookies whose values must be validated.
+• Empty cookie names are not allowed |
+| validate | is | • The `is` key indicates the values that are permitted, or the validation rules that must be adhered to, for the given validation target.
+• Possible values for the `is` key are:
+	◦ `integer`
+	◦ `integer-positive`
+	◦ `integer-unsigned`
+	◦ `alphanumeric`
+	◦ `sql-no-single-quotes`
+	◦ `sql-no-double-quotes`
+	◦ `html-no-single-quotes`
+	◦ `html-no-double-quotes`
+	◦ `html-attribute-unquoted`
+	◦ `html-text`
+• Alternatively, the user may specify a valid regular expression (according to the platform's regular expression syntax)
+• In addition, the value can be a list comprised of more than one of any of the above types |
 
 ## Then (Action)
 
@@ -4409,13 +4640,24 @@ When using the Rampart `http` rule to set custom HTTP/HTTPS response headers the
 
 The HTTP/HTTPS response header addition feature is enabled using the Rampart `http` rule. The following condition must be specified - `response`.
 
-| response | This determines the HTTP endpoints to which custom headers are added to the responses. An optional Key-Value pair can be supplied to this declaration where the key is paths and the value can be one of the following (indicating specifically targeted HTTP endpoints) :- • a quoted string • a list of one or more quoted-strings If no value is specified then custom headers are applied to all HTTP endpoints by default. If a string value is specified then it must: • not be empty • be a valid relative URI |
-| --- | --- |
+| response | This determines the HTTP endpoints to which custom headers are added to the responses. An optional Key-Value pair can be supplied to this declaration where the key is `paths` and the value can be one of the following: (indicating specifically targeted HTTP endpoints)
+• a quoted string
+• a list of one or more quoted-strings
+If no value is specified then custom headers are applied to all HTTP endpoints by default. If a string value is specified then it must:
+• not be empty
+• be a valid relative URI |
 
 ## Then (Action)
 
-| protect | This is the only available action for the Rampart HTTP/HTTPS Response Header Addition feature and, in addition to the standard log message and severity parameters, must also be specified with the following parameter: • http-response: {set-header:                     {headerName: "headerValue"}} The set-header declaration can contain multiple headers providing each one has a unique header name. Each header is represented as a key-value pair where: • the key is the header name • the value is the header value, which can be one of: ◦ string literal ◦ integer ◦ float ◦ boolean |
-| --- | --- |
+| Action | Description |
+| ------ | ----------- |
+| protect | This is the only available action for the Rampart HTTP/HTTPS Response Header Addition feature and in addition to the standard log message and severity parameters, must also be specified with the following parameter: `http-response: {set-header:                     {headerName: "headerValue"}}`, The `set-header` declaration can contain multiple headers providing each one has a unique header name. Each header is represented as a key-value pair where:
+• the key is the header name
+• the value is the header value, which can be one of the following:
+	◦ string literal
+	◦ integer
+	◦ float
+	◦ boolean |
 
 ## Examples
 
