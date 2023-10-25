@@ -4777,9 +4777,7 @@ It must be noted that:
 
 The Rampart Session Fixation security feature protects against session fixation attacks by regenerating the session ID when the user authenticates. This rule only supports applications whose Authentication Management system sets authentication and identity information on every HTTP request and, as such, does not regenerate the session ID of requests that do not carry such identity information.
 
-💡
-
-In the very rare case that the target web application depends on having the same HTTP session ID both before and after user authentication, then enabling this security rule may break normal application functionality.
+⚠️ In the very rare case that the target web application depends on having the same HTTP session ID both before and after user authentication, then enabling this security rule may break normal application functionality.
 
 ## **Given (Condition)**
 
