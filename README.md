@@ -1444,8 +1444,8 @@ The Denial-of-Service deserialization protection safeguards critical system reso
 
 ### Given(Condition)
 
-|   |   |
-|---|---|
+| Action | Description |
+|--------|-------------|
 | deserialize | The keyword `deserialize` is one of two components that must be supplied in the marshal rule with only one being allowed to be configured in a single rule. `java` and `dotnet` are the only parameters accepted. |
 
 ### When(Event)
