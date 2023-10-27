@@ -285,10 +285,10 @@ app("CVE-2021-2432"):
             version: 3.0,
             vector: "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:L"},
         description: "This vulnerability may be exploited by a remote
-      non-authenticated attacker to perform service disruption.
-      The vulnerability exists due to improper input validation
-      within the JNDI component in Java SE."
-  )
+        non-authenticated attacker to perform service disruption.
+        The vulnerability exists due to improper input validation
+        within the JNDI component in Java SE."
+    )
 
     patch("JNDI component fix"):
             ...
@@ -562,13 +562,12 @@ app("Security Rules"):
     requires (version: "Rampart/2.0")
 
     http("Detect HTTP requests with invalid origin header"):
-            request(paths: "/webapp/index.jsp")
-            csrf(same-origin,
-                options: {
-                    hosts: ["host1", "host2", "host3:8080"]})
-            detect(message: "HTTP Same Origin validation failed", severity: 7)
-        endhttp
-
+        request(paths: "/webapp/index.jsp")
+        csrf(same-origin,
+            options: {
+                hosts: ["host1", "host2", "host3:8080"]})
+        detect(message: "HTTP Same Origin validation failed", severity: 7)
+    endhttp
 endapp
 ```
 
@@ -1187,11 +1186,11 @@ app("Security Policy"):
         function("com/example/Person.toString()Ljava/lang/String")
         readsite("com/example/Person.age", occurrences: [2])
 
-            code(language: java):
-                public void patch(JavaFrame frame) {
-                    // patch code here
-                }
-            endcode
+        code(language: java):
+            public void patch(JavaFrame frame) {
+                // patch code here
+            }
+        endcode
     endpatch
 endapp
 ```
@@ -1253,45 +1252,41 @@ app("Security Policy"):
     patch("write :01"):
         function("com/example/Person.toString()Ljava/lang/String")
         write("com/example/Person.message")
-
-            code(language: java):
-                public void patch(JavaFrame frame) {
-                    // patch code here
-                }
-            endcode
+        code(language: java):
+            public void patch(JavaFrame frame) {
+                // patch code here
+            }
+        endcode
     endpatch
 
     patch("write :02"):
         function("com/example/Person.toString()Ljava/lang/String")
         write("com/example/Person.message")
-
-            code(language: java):
-                public void patch(JavaFrame frame) {
-                    // patch code here
-                }
-            endcode
+        code(language: java):
+            public void patch(JavaFrame frame) {
+                // patch code here
+            }
+        endcode
     endpatch
 
     patch("writesite"):
         function("com/example/Person.toString()Ljava/lang/String")
         writesite("com/example/Person.message")
-
-            code(language: java):
-                public void patch(JavaFrame frame) {
-                    // patch code here
-                }
-            endcode
+        code(language: java):
+            public void patch(JavaFrame frame) {
+                // patch code here
+            }
+        endcode
     endpatch
 
     patch("writereturn"):
         function("com/example/Person.toString()Ljava/lang/String")
         writereturn("com/example/Person.message")
-
-            code(language: java):
-                public void patch(JavaFrame frame) {
-                    // patch code here
-                }
-            endcode
+        code(language: java):
+            public void patch(JavaFrame frame) {
+                // patch code here
+            }
+        endcode
     endpatch
 
 endapp
@@ -1846,12 +1841,12 @@ The `detect` action is a good way to see how an application responds to the XXE 
 ```
 app("XXE SECURITY POLICY"):
     requires(version: Rampart/2.10)
-        marshal("XXE:ALLOW"):
-            xxe(uri: ["http://struts.apache.org/dtds/struts-2.10.dtd",
-                "http://struts.apache.org/dtds/struts-2.10.dtd",
-                "http://java.sun.com/dtd/web-jsptaglibrary_1_2.dtd",
-                "http://java.sun.com/j2ee/dtds/web-jsptaglibrary_1_1.dtd"])
-            allow(message: "An external DTD URI has been allowed")
+    marshal("XXE:ALLOW"):
+        xxe(uri: ["http://struts.apache.org/dtds/struts-2.10.dtd",
+            "http://struts.apache.org/dtds/struts-2.10.dtd",
+            "http://java.sun.com/dtd/web-jsptaglibrary_1_2.dtd",
+            "http://java.sun.com/j2ee/dtds/web-jsptaglibrary_1_1.dtd"])
+        allow(message: "An external DTD URI has been allowed")
     endmarshal
 endapp
 ```
@@ -2158,7 +2153,7 @@ Windows:
 ```
 app("Library mod 3"):
     requires(version: Rampart/2.10)
-        library("Detect loading a native library with a specific name"):
+    library("Detect loading a native library with a specific name"):
         load("Counter.dll")
         detect(message: "Detected attempt to load library", severity: 6)
     endlibrary
@@ -2172,14 +2167,14 @@ Unix:
 ```
 app("Library mod 4"):
     requires(version: Rampart/2.10)
-        library("Prevent loading all native libraries"):
-            load("*")
-            protect(message: "Blocked attempt to load library", severity: 10)
-        endlibrary
-        library("Detect loading a native library with a specific name"):
-            load("/tmp/libCounter.so")
-            allow(message: "Access granted to load particular native library", severity: Medium)
-        endlibrary
+    library("Prevent loading all native libraries"):
+        load("*")
+        protect(message: "Blocked attempt to load library", severity: 10)
+    endlibrary
+    library("Detect loading a native library with a specific name"):
+        load("/tmp/libCounter.so")
+        allow(message: "Access granted to load particular native library", severity: Medium)
+    endlibrary
 endapp
 ```
 
@@ -2188,14 +2183,14 @@ Windows:
 ```
 app("Library mod 4"):
     requires(version: Rampart/2.10)
-        library("Prevent loading all native libraries"):
-            load("*")
-            protect(message: "Blocked attempt to load library", severity: 10)
-        endlibrary
-        library("Detect loading a native library with a specific name"):
-            load("C:\\Windows\\Counter.dll")
-            allow(message: "Access granted to load particular native library", severity: Medium)
-        endlibrary
+    library("Prevent loading all native libraries"):
+        load("*")
+        protect(message: "Blocked attempt to load library", severity: 10)
+    endlibrary
+    library("Detect loading a native library with a specific name"):
+        load("C:\\Windows\\Counter.dll")
+        allow(message: "Access granted to load particular native library", severity: Medium)
+    endlibrary
 endapp
 ```
 
@@ -2511,7 +2506,7 @@ app("File read protect mod - specific files"):
     filesystem("Protect read access to specific files"):
         read("C:\\Windows\\somefile.txt", "C:\\Windows\\somefile2.txt")
         protect(message: "Unauthorized file read blocked", severity: 8)
-        endfilesystem
+    endfilesystem
 endapp
 ```
 
@@ -3834,14 +3829,13 @@ The following Rampart `http` rule switches on the Open Redirect security feature
 
 ```
 app("Open Redirect mod"):
-requires(version: Rampart/2.10)
+    requires(version: Rampart/2.10)
 
-http("Protect against open redirect attacks"):
-open-redirect()
-response()
-protect(message: "Protect external redirects.", severity: Very-High)
-endhttp
-
+    http("Protect against open redirect attacks"):
+        open-redirect()
+        response()
+        protect(message: "Protect external redirects.", severity: Very-High)
+    endhttp
 endapp
 ```
 
@@ -3859,14 +3853,13 @@ The following mod is the same as the previous example, with the stacktrace also 
 
 ```
 app("Open Redirect mod - with stacktrace"):
-requires(version: Rampart/2.10)
+    requires(version: Rampart/2.10)
 
-http("Protect against open redirect attacks"):
-open-redirect()
-response()
-protect(message: "Protect external redirects.", severity: Very-High, stacktrace: "full")
-endhttp
-
+    http("Protect against open redirect attacks"):
+        open-redirect()
+        response()
+        protect(message: "Protect external redirects.", severity: Very-High, stacktrace: "full")
+    endhttp
 endapp
 ```
 
@@ -3902,15 +3895,14 @@ The following mod detects open redirect attacks that originate from an HTTP/HTTP
 
 ```
 app("Open Redirect mod 2"):
-requires(version: Rampart/2.10)
+    requires(version: Rampart/2.10)
 
-http("Detect malicious open redirect attacks"):
-input(http)
-response()
-open-redirect()
-detect(message: "Unauthorized external redirect detected.", severity: High)
-endhttp
-
+    http("Detect malicious open redirect attacks"):
+        input(http)
+        response()
+        open-redirect()
+        detect(message: "Unauthorized external redirect detected.", severity: High)
+    endhttp
 endapp
 ```
 
@@ -3918,15 +3910,14 @@ The following mod protects against open redirect attacks that originate from var
 
 ```
 app("Open Redirect mod 3"):
-requires(version: Rampart/2.10)
+    requires(version: Rampart/2.10)
 
-http("Protect against open redirect attacks"):
-response()
-input(deserialization, http, database)
-open-redirect()
-protect(severity: 10)
-endhttp
-
+    http("Protect against open redirect attacks"):
+        response()
+        input(deserialization, http, database)
+        open-redirect()
+        protect(severity: 10)
+    endhttp
 endapp
 ```
 
@@ -3934,15 +3925,14 @@ The following mod protects against open redirect attacks that originate from a d
 
 ```
 app("Open Redirect mod 4"):
-requires(version: Rampart/2.10)
+    requires(version: Rampart/2.10)
 
-http("Protect against open redirect attacks, excluding subdomains"):
-response()
-input(database)
-open-redirect(options: {exclude: subdomains})
-protect(message: "Open redirect attack blocked.", severity: Medium)
-endhttp
-
+    http("Protect against open redirect attacks, excluding subdomains"):
+        response()
+        input(database)
+        open-redirect(options: {exclude: subdomains})
+        protect(message: "Open redirect attack blocked.", severity: Medium)
+    endhttp
 endapp
 ```
 
@@ -4442,13 +4432,12 @@ Using the response header `Content-Security-Policy=frame-ancestors 'none'` preve
 
 ```
 app("Header response addition mod"):
-requires(version: Rampart/2.10)
+  requires(version: Rampart/2.10)
 
-http("Add custom headers to HTTP/S response"):
-response()
-protect(http-response: {set-header: {Content-Security-Policy: "frame-ancestors 'none'"}}, message: "Setting custom header.", severity: High)
-endhttp
-
+  http("Add custom headers to HTTP/S response"):
+    response()
+    protect(http-response: {set-header: {Content-Security-Policy: "frame-ancestors 'none'"}}, message: "Setting custom header.", severity: High)
+  endhttp
 endapp
 ```
 
@@ -4456,13 +4445,12 @@ Using the response header `Content-Security-Policy=frame-ancestors 'self'` only 
 
 ```
 app("Header response addition mod"):
-requires(version: Rampart/2.10)
+  requires(version: Rampart/2.10)
 
-http("Add custom headers to HTTP/S response"):
-response()
-protect(http-response: {set-header: {Content-Security-Policy: "frame-ancestors 'self'"}}, message: "Setting custom header.", severity: High)
-endhttp
-
+  http("Add custom headers to HTTP/S response"):
+    response()
+    protect(http-response: {set-header: {Content-Security-Policy: "frame-ancestors 'self'"}}, message: "Setting custom header.", severity: High)
+  endhttp
 endapp
 ```
 
@@ -4470,12 +4458,12 @@ Using the response header `Content-Security-Policy=frame-ancestors 'self' URI1 U
 
 ```
 app("Header response addition mod"):
-requires(version: Rampart/2.10)
+  requires(version: Rampart/2.10)
 
-http("Add custom headers to HTTP/S response"):
-response()
-protect(http-response: {set-header: {Content-Security-Policy: "frame-ancestors 'self' *.somesite.com https://trusted.site.com"}}, message: "Setting custom header.", severity: High)
-endhttp
+  http("Add custom headers to HTTP/S response"):
+    response()
+    protect(http-response: {set-header: {Content-Security-Policy: "frame-ancestors 'self' *.somesite.com https://trusted.site.com"}}, message: "Setting custom header.", severity: High)
+  endhttp
 endapp
 ```
 
@@ -4485,13 +4473,12 @@ Please check MDN Web Docs “Contest Security Policy“ for more information abo
 
 ```
 app("Header response addition mod"):
-requires(version: Rampart/2.10)
+  requires(version: Rampart/2.10)
 
-http("Add custom headers to HTTP/S response"):
-response()
-protect(http-response: {set-header: {Strict-Transport-Security: "max-age=31536000"}}, message: "Setting custom header.", severity: High)
-endhttp
-
+  http("Add custom headers to HTTP/S response"):
+    response()
+    protect(http-response: {set-header: {Strict-Transport-Security: "max-age=31536000"}}, message: "Setting custom header.", severity: High)
+  endhttp
 endapp
 ```
 
@@ -4501,12 +4488,12 @@ Please check MDN Web Docs “Strict Transport Security“ for more information a
 
 ```
 app("Header response addition mod"):
-requires(version: Rampart/2.10)
+  requires(version: Rampart/2.10)
 
-http("Add custom headers to HTTP/S response"):
-response()
-protect(http-response: {set-header: {Access-Control-Allow-Origin: "*"}}, message: "Setting custom header.", severity: High)
-endhttp
+  http("Add custom headers to HTTP/S response"):
+    response()
+    protect(http-response: {set-header: {Access-Control-Allow-Origin: "*"}}, message: "Setting custom header.", severity: High)
+  endhttp
 endapp
 ```
 
@@ -4791,12 +4778,12 @@ If the origin validation fails then the rule strips out all HTTP parameters, coo
 
 ```
 app("CSRF Same-Origins"):
-requires(version: Rampart/2.10)
-http("Deny HTTP requests with invalid origin header (for all HTTP endpoints)"):
-csrf(same-origin)
-request()
-protect(message: "HTTP origin validation failed", severity: 7)
-endhttp
+  requires(version: Rampart/2.10)
+  http("Deny HTTP requests with invalid origin header (for all HTTP endpoints)"):
+    csrf(same-origin)
+    request()
+    protect(message: "HTTP origin validation failed", severity: 7)
+  endhttp
 endapp
 ```
 
@@ -4806,12 +4793,12 @@ For example:
 
 ```
 app("CSRF Same-Origins"):
-requires(version: Rampart/2.10)
-http("Deny HTTP requests with invalid origin header (for specific HTTP endpoints)"):
-csrf(same-origin)
-request(paths: ["/path/to/vulnerablePage.jsp", "/path/to/vulnerableServlet"])
-protect(message: "HTTP origin validation failed", severity: 7)
-endhttp
+  requires(version: Rampart/2.10)
+  http("Deny HTTP requests with invalid origin header (for specific HTTP endpoints)"):
+    csrf(same-origin)
+    request(paths: ["/path/to/vulnerablePage.jsp", "/path/to/vulnerableServlet"])
+    protect(message: "HTTP origin validation failed", severity: 7)
+  endhttp
 endapp
 ```
 
@@ -4862,12 +4849,12 @@ For example:
 
 ```
 app("CSRF Same-Origins"):
-requires(version: Rampart/2.10)
-http("Deny HTTP requests with invalid origin header (with whitelisted hosts)"):
-csrf(same-origin, options: {hosts: ["account.example.org", "login.example.com"]})
-request()
-protect(message: "HTTP origin validation failed", severity: 7)
-endhttp
+  requires(version: Rampart/2.10)
+  http("Deny HTTP requests with invalid origin header (with whitelisted hosts)"):
+    csrf(same-origin, options: {hosts: ["account.example.org", "login.example.com"]})
+    request()
+    protect(message: "HTTP origin validation failed", severity: 7)
+  endhttp
 endapp
 ```
 
