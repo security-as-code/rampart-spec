@@ -1035,11 +1035,9 @@ Consider the following Java source code:
 package ie.example;
 
 public class Utils {
-
     public byte[] createByteArray(int length) {
         return new byte[length];
     }
-
 }
 ```
 
@@ -1143,7 +1141,6 @@ class Person {
         if (age == 0) {
             return "This person has no age.";
         }
-
         return "This person is " + age + " years old.";
     }
 }
@@ -1237,7 +1234,6 @@ class Person {
         } else {
             message = "This person is " + age + " years old.";
         }
-
         return message;
     }
 }
