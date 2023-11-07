@@ -171,7 +171,7 @@ A Rampart string may contain any character. Double-quotes may be included in the
 
 | Valid | Invalid |
 | --- | --- |
-| "hello\\ world\"" | "hello world\\" |
+| "hello\\\\ world\\"" | "hello world\\" |
 |  | "hello w"rld" |
 |  | "hello w\\\\"orld" |
 
